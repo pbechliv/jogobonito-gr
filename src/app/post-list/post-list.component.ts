@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 type Section = {
   type: string;
@@ -10,7 +10,7 @@ type Post = {
   titlePhotoURL: string;
   sections: Section[];
   createdAt: string;
-  modifiedAt: string;
+  modifiedAt: Date;
 };
 
 @Component({
@@ -18,10 +18,8 @@ type Post = {
   templateUrl: './post-list.component.html',
   styleUrls: ['./post-list.component.scss'],
 })
-export class PostListComponent implements OnInit {
+export class PostListComponent {
   posts: Post[] = [];
 
   constructor() {}
-
-  ngOnInit(): void {}
 }
