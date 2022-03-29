@@ -1,0 +1,28 @@
+@import "styles/breakpoints";
+
+.main-content {
+  max-width: 992px;
+  background-color: yellow;
+  padding: 1%;
+  margin: auto;
+}
+
+@include sm {
+  .main-content {
+  }
+}
+
+@include md {
+  .main-content {
+  }
+}
+
+@include lg {
+  .main-content {
+  }
+}
+
+@include xl {
+  .main-content {
+  }
+}

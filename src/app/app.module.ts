@@ -10,6 +10,8 @@ import { PostListComponent } from './post-list/post-list.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { PostDetailComponent } from './post-detail/post-detail.component';
 import { PostCardComponent } from './post-card/post-card.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,8 @@ import { PostCardComponent } from './post-card/post-card.component';
     MatToolbarModule,
     MatIconModule,
     LayoutModule,
+    MatCardModule,
+    MatGridListModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

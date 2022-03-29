@@ -1,1 +1,5 @@
-<p>post-list works!</p>
+<mat-grid-list class="post-list" [cols]="getColumnNumber()">
+  <mat-grid-tile><app-post-card></app-post-card></mat-grid-tile>
+  <mat-grid-tile><app-post-card></app-post-card></mat-grid-tile>
+  <mat-grid-tile><app-post-card></app-post-card></mat-grid-tile>
+</mat-grid-list>
