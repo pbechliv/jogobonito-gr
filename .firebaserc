@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "jogobonito-gr": {
+      "hosting": {
+        "jogobonito-gr": [
+          "jogobonito-gr"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "jogobonito-gr"
+  }
+}

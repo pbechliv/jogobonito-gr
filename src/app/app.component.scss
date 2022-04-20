@@ -1,28 +1,6 @@
-@import "styles/breakpoints";
-
 .main-content {
-  max-width: 992px;
-  background-color: yellow;
-  padding: 1%;
+  max-width: 1050px;
+  padding: 8px;
   margin: auto;
-}
-
-@include sm {
-  .main-content {
-  }
-}
-
-@include md {
-  .main-content {
-  }
-}
-
-@include lg {
-  .main-content {
-  }
-}
-
-@include xl {
-  .main-content {
-  }
+  background-color: #fafafa;
 }

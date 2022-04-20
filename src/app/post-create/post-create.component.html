@@ -1,0 +1,46 @@
+<div class="post-create">
+  <form
+    action=""
+    class="post-create-form"
+    [formGroup]="postCreateForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <mat-form-field appearance="outline">
+      <mat-label>Title</mat-label>
+      <input matInput type="text" formControlName="title" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Lead</mat-label>
+      <input matInput type="text" formControlName="lead" />
+    </mat-form-field>
+    <div>
+      <label>Title photo </label>
+      <input type="file" formControlName="titlePhoto" />
+    </div>
+    <ng-container
+      formArrayName="sections"
+      *ngFor="let section of sectionControls; let i = index"
+    >
+      <mat-form-field [formGroup]="section" appearance="outline">
+        <mat-label>Select type of section</mat-label>
+        <mat-select formControlName="type">
+          <mat-option
+            *ngFor="let sectionType of sectionTypes"
+            [value]="sectionType.value"
+          >
+            {{ sectionType.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-button color="warn" type="button" (click)="removeSection(i)">
+        Remove section
+      </button>
+    </ng-container>
+
+    <button mat-button type="button" (click)="addSection()">Add section</button>
+
+    <button mat-raised-button color="primary" type="submit">Submit post</button>
+  </form>
+</div>
+
+<ng-template #sectionTypeSelected> Please friend, login. </ng-template>

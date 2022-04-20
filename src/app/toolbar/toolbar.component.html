@@ -1,0 +1,20 @@
+<mat-toolbar class="toolbar" color="accent">
+  <div></div>
+  <div>
+    <mat-icon>sports_soccer</mat-icon>
+    <span class="toolbar-title" routerLink="">jogobonito.gr</span>
+    <mat-icon>sports_soccer</mat-icon>
+  </div>
+  <div class="toolbar-logout">
+    <a *ngIf="this.isSignedIn()" mat-button routerLink="dashboard">
+      <mat-icon>dashboard</mat-icon>
+    </a>
+    <button *ngIf="this.isSignedIn()" mat-button (click)="this.signOut()">
+      <mat-icon>logout</mat-icon>
+    </button>
+    <a *ngIf="!this.isSignedIn()" mat-button routerLink="login">
+      <mat-icon>login</mat-icon>
+    </a>
+  </div>
+  <!-- <div *ngIf="!this.isSignedIn()"></div> -->
+</mat-toolbar>

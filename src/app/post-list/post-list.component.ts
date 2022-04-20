@@ -4,19 +4,8 @@ import {
   BreakpointState,
 } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
-
-type Section = {
-  type: string;
-  value: string;
-};
-
-type Post = {
-  title: string;
-  titlePhotoURL: string;
-  sections: Section[];
-  createdAt: string;
-  modifiedAt: Date;
-};
+import { AuthService } from '../services/auth.service';
+import { Post } from '../types/post';
 
 @Component({
   selector: 'app-post-list',
@@ -27,19 +16,17 @@ export class PostListComponent implements OnInit {
   isScreenMediumOrLarger = false;
   posts: Post[] = [];
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.breakpointObserver
-      .observe([Breakpoints.Medium, Breakpoints.Large, Breakpoints.XLarge])
-      .subscribe(({ matches }: BreakpointState) => {
-        this.isScreenMediumOrLarger = !!matches;
+    setTimeout(() => {
+      console.log(this.authService.user);
+      console.log(this.authService.isLoading);
+      console.log(this.authService.isSignedIn);
+    }, 500);
 
-        console.log(this.isScreenMediumOrLarger);
-      });
-  }
-
-  getColumnNumber() {
-    return this.isScreenMediumOrLarger ? 3 : 1;
+    console.log(this.authService.user);
+    console.log(this.authService.isLoading);
+    console.log(this.authService.isSignedIn);
   }
 }

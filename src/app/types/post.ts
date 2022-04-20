@@ -1,16 +1,17 @@
-type Section = {
+export interface Section {
   type: string;
   value: string;
-};
+}
 
-type Post = {
+export interface Post {
   id: string;
   title: string;
   lead: string;
-  titlePhotoURL: string;
+  titlePhoto: string;
   sections: Section[];
   labels: string[];
+  tags: string[];
   relatedPosts: string[];
   createdAt: string;
   modifiedAt: string;
-};
+}

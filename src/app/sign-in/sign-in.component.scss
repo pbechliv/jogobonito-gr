@@ -1,0 +1,10 @@
+.sign-in {
+  &-header {
+    text-align: center;
+  }
+
+  &-form {
+    display: flex;
+    flex-direction: column;
+  }
+}
