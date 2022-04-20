@@ -1,0 +1,9 @@
+.toolbar {
+  justify-content: space-between;
+  font-size: xx-large;
+
+  &-title {
+    cursor: pointer;
+    padding: 0 1rem;
+  }
+}

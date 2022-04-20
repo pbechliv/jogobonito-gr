@@ -1,0 +1,16 @@
+@import "../styles/breakpoints";
+
+.post-card {
+  // padding: 20 20px;
+  // width: 340px;
+  // height: 250px;
+  &-img {
+    height: 350px;
+    object-fit: cover;
+  }
+}
+
+// :host.header-card {
+//   grid-column: 1 / 4;
+//   grid-row: 1 /2;
+// }
