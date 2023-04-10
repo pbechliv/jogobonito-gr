@@ -16,23 +16,28 @@ const Post = ({ post, categories }: any) => {
   return (
     <Layout categories={[]}>
       <Seo seo={seo} />
-      <div className="prose max-w-full mb-3">
-        <h1>{post.attributes.title}</h1>
-      </div>
-      <div className="relative aspect-video mb-3">
-        <NextImage
-          className="object-fit"
-          image={post.attributes.image}
-        ></NextImage>
-      </div>
-      <div>
-        <ReactMarkdown
-          className="prose prose-slate max-w-full"
-          rehypePlugins={[rehypeRaw]}
-          remarkRehypeOptions={{ allowDangerousHtml: true }}
-        >
-          {post.attributes.content}
-        </ReactMarkdown>
+      <div className="px-4">
+        <div className="prose max-w-full mb-3">
+          <h1>{post.attributes.title}</h1>
+        </div>
+        <div className="relative aspect-video mb-3">
+          <NextImage
+            className="object-fit rounded-md"
+            image={post.attributes.image}
+          ></NextImage>
+        </div>
+        <div>
+          <ReactMarkdown
+            className="prose prose-slate max-w-full"
+            rehypePlugins={[rehypeRaw]}
+            remarkRehypeOptions={{ allowDangerousHtml: true }}
+            transformImageUri={(uri: string) =>
+              uri.replace("http://localhost:1337", "")
+            }
+          >
+            {post.attributes.content}
+          </ReactMarkdown>
+        </div>
       </div>
     </Layout>
   );

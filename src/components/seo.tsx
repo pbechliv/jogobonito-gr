@@ -1,5 +1,5 @@
-import Head from "next/head"
-import { getStrapiMedia } from "../lib/media"
+import Head from "next/head";
+import { getStrapiMedia } from "../lib/media";
 
 const Seo = ({ seo }: any) => {
   const fullSeo = {
@@ -7,8 +7,12 @@ const Seo = ({ seo }: any) => {
     // Add title suffix
     metaTitle: `Jogo Bonito | jogobonito.gr`,
     // Get full image URL
-    shareImage: getStrapiMedia(seo?.shareImage || {data: {attributes: {url: "socrates.jpeg"}}}),
-  }
+    shareImage: getStrapiMedia(
+      seo?.shareImage || {
+        data: { attributes: { url: "/uploads/socrates.jpeg" } },
+      }
+    ),
+  };
 
   return (
     <Head>
@@ -36,7 +40,7 @@ const Seo = ({ seo }: any) => {
       {fullSeo.post && <meta property="og:type" content="post" />}
       <meta name="twitter:card" content="summary_large_image" />
     </Head>
-  )
-}
+  );
+};
 
-export default Seo
+export default Seo;
