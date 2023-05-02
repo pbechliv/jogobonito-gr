@@ -1,42 +1,71 @@
-import ReactMarkdown from "react-markdown";
-import { fetchAPI } from "../../lib/api";
+import { MARKS, BLOCKS } from "@contentful/rich-text-types";
 import Layout from "../../components/layout";
 import NextImage from "../../components/image";
 import Seo from "../../components/seo";
-import rehypeRaw from "rehype-raw";
+import { getOnePost, getPostPaths } from "@jogo/lib/api";
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import { Fragment } from "react";
+import RichTextAsset from "@jogo/components/rich-text-asset";
 
-const Post = ({ post, categories }: any) => {
+const customMarkdownOptions = (content: any) => ({
+  renderNode: {
+    [BLOCKS.PARAGRAPH]: (node: any, children: any) => {
+      if (node.content[0].marks.some((mark: any) => mark.type === MARKS.CODE)) {
+        return <Fragment>{children}</Fragment>;
+      } else {
+        return <p>{children}</p>;
+      }
+    },
+    [BLOCKS.EMBEDDED_ASSET]: (node: any) => (
+      <RichTextAsset
+        id={node.data.target.sys.id}
+        assets={content.links.assets.block}
+      />
+    ),
+  },
+  renderMark: {
+    [MARKS.CODE]: (node: any) => {
+      let wrapperClassName = "";
+      if (node.includes('src="https://www.youtube.com/embed')) {
+        node = node.replace("<iframe", '<iframe class="youtube-iframe"');
+        wrapperClassName = "youtube-container";
+      }
+      return (
+        <div
+          className={wrapperClassName}
+          dangerouslySetInnerHTML={{ __html: node }}
+        />
+      );
+    },
+  },
+});
+
+const Post = ({ post }: any) => {
   const seo = {
-    metaTitle: post.attributes.title,
-    metaDescription: post.attributes.description,
-    shareImage: post.attributes.image,
+    metaTitle: post.title,
+    metaDescription: post.description,
+    shareImage: post.mainImage.url,
     post: true,
   };
-
+  console.log(post.mainImage.url);
   return (
-    <Layout categories={[]}>
+    <Layout>
       <Seo seo={seo} />
       <div className="px-4">
         <div className="prose max-w-full mb-3">
-          <h1>{post.attributes.title}</h1>
+          <h1>{post.title}</h1>
         </div>
         <div className="relative aspect-video mb-3">
           <NextImage
             className="object-fit rounded-md"
-            image={post.attributes.image}
+            image={post.mainImage}
           ></NextImage>
         </div>
-        <div>
-          <ReactMarkdown
-            className="prose prose-slate max-w-full"
-            rehypePlugins={[rehypeRaw]}
-            remarkRehypeOptions={{ allowDangerousHtml: true }}
-            transformImageUri={(uri: string) =>
-              uri.replace("http://localhost:1337", "")
-            }
-          >
-            {post.attributes.content}
-          </ReactMarkdown>
+        <div className="prose prose-slate max-w-full">
+          {documentToReactComponents(
+            post.content.json,
+            customMarkdownOptions(post.content)
+          )}
         </div>
       </div>
     </Layout>
@@ -44,12 +73,12 @@ const Post = ({ post, categories }: any) => {
 };
 
 export async function getStaticPaths() {
-  const postsRes = await fetchAPI("/posts", { fields: ["slug"] });
+  const paths = await getPostPaths();
 
   return {
-    paths: postsRes.data.map((post: any) => ({
+    paths: paths.map((slug: any) => ({
       params: {
-        slug: post.attributes.slug,
+        slug,
       },
     })),
     fallback: false,
@@ -57,17 +86,9 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }: any) {
-  const postsRes = await fetchAPI("/posts", {
-    filters: {
-      slug: params.slug,
-    },
-    populate: "*",
-  });
-  const categoriesRes = await fetchAPI("/categories");
-
+  const post = await getOnePost(params.slug);
   return {
-    props: { post: postsRes.data[0], categories: categoriesRes },
-    revalidate: 1,
+    props: { post },
   };
 }
 

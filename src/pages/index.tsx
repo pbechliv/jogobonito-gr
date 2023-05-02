@@ -1,11 +1,11 @@
-import { fetchAPI } from "@jogo/lib/api";
 import Layout from "@jogo/components/layout";
 import Seo from "@jogo/components/seo";
 import Posts from "@jogo/components/posts";
+import { getManyPosts } from "@jogo/lib/api";
 
-const Home = ({ posts, categories, homepage }: any) => {
+const Home = ({ posts }: any) => {
   return (
-    <Layout categories={categories}>
+    <Layout>
       <Seo />
       <Posts posts={posts} />
     </Layout>
@@ -13,18 +13,9 @@ const Home = ({ posts, categories, homepage }: any) => {
 };
 
 export async function getStaticProps() {
-  // Run API calls in parallel
-  const [postsRes, categoriesRes] = await Promise.all([
-    fetchAPI("/posts", { populate: "*" }),
-    fetchAPI("/categories", { populate: "*" }),
-  ]);
-
+  const posts = (await getManyPosts()) ?? [];
   return {
-    props: {
-      posts: postsRes.data,
-      categories: categoriesRes.data,
-    },
-    revalidate: 1,
+    props: { posts },
   };
 }
 

@@ -7,7 +7,7 @@ const rubik = Rubik_Vinyl({
   subsets: ["latin"],
 });
 
-const Nav = ({ categories }: any) => {
+const Nav = () => {
   return (
     <div className="w-full bg-blue-600 bg-opacity-40 p-4 shadow-md">
       <div>
@@ -19,15 +19,15 @@ const Nav = ({ categories }: any) => {
               Jogo Bonito
             </div>
           </Link>
-          {categories.map((category: any) => {
-            return (
-              <div key={category.id} className="mx-1 p-2 max-md:hidden">
-                <Link href={`/category/${category.attributes.slug}`}>
-                  {category.attributes.name}
-                </Link>
-              </div>
-            );
-          })}
+          <div key={"afieromata"} className="mx-1 p-2 max-md:hidden">
+            <Link href={`/tag/afieromata`}>Αφιερώματα</Link>
+          </div>
+          <div key={"podosfairo"} className="mx-1 p-2 max-md:hidden">
+            <Link href={`/tag/podosfairo`}>Ποδόσσφαιρο</Link>
+          </div>
+          <div key={"mpasket"} className="mx-1 p-2 max-md:hidden">
+            <Link href={`/tag/mpasket`}>Μπάσκετ</Link>
+          </div>
         </nav>
       </div>
     </div>

@@ -1,17 +1,13 @@
 import Head from "next/head";
-import { getStrapiMedia } from "../lib/media";
 
 const Seo = ({ seo }: any) => {
   const fullSeo = {
     ...seo,
     // Add title suffix
-    metaTitle: `Jogo Bonito | jogobonito.gr`,
+    metaTitle: `jogobonito.gr`,
     // Get full image URL
-    shareImage: getStrapiMedia(
-      seo?.shareImage || {
-        data: { attributes: { url: "/uploads/socrates.jpeg" } },
-      }
-    ),
+    shareImage:
+      "https://images.ctfassets.net/l9r5j1d42eo7/1XuR7HAX4knEU8Eft597wy/f64b2e84aa1b5592dfe0406a722495fa/socrates.jpeg",
   };
 
   return (
