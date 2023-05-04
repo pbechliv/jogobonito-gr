@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import NextImage from "./image";
+import NextImage from "next/image";
 
 const Card = ({ post }: any) => {
   return (
@@ -9,14 +9,16 @@ const Card = ({ post }: any) => {
         <div className="relative aspect-video">
           <NextImage
             className="object-cover transition-all rounded-md group-hover:scale-105"
-            image={post.mainImage}
+            src={post.mainImage.url}
+            fill
+            alt=""
           />
         </div>
         <div>
-          <div className="flex gap-x-3 flex-wrap mt-2">
+          <div className="flex gap-1 flex-wrap mt-2">
             {post.tags.items.map((tag: any) => (
               <span
-                className="text-blue-500 text-sm"
+                className="text-slate-700 text-xs border-2 border-yellow-200 rounded-xl p-1"
                 key={`${post.slug}__${tag.name}`}
               >
                 {tag.name}

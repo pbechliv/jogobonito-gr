@@ -12,7 +12,7 @@ const Tag = ({ tag }: any) => {
   return (
     <Layout>
       <Seo seo={seo} />
-      <h1 className="text-2xl p-4 underline decoration-yellow-200">
+      <h1 className="text-2xl font-semibold text-center p-4 underline decoration-yellow-200">
         {tag.name}
       </h1>
       <Posts posts={tag.posts} />

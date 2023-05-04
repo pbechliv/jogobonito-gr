@@ -84,7 +84,6 @@ export async function getOneTag(slug: string) {
       }
     }`
   );
-  console.log(JSON.stringify(entries));
 
   return extractTagEntry(entries);
 }

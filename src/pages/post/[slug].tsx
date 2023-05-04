@@ -1,6 +1,6 @@
 import { MARKS, BLOCKS } from "@contentful/rich-text-types";
 import Layout from "../../components/layout";
-import NextImage from "../../components/image";
+import NextImage from "next/image";
 import Seo from "../../components/seo";
 import { getOnePost, getPostPaths } from "@jogo/lib/api";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
@@ -47,7 +47,7 @@ const Post = ({ post }: any) => {
     shareImage: post.mainImage.url,
     post: true,
   };
-  console.log(post.mainImage.url);
+
   return (
     <Layout>
       <Seo seo={seo} />
@@ -58,7 +58,9 @@ const Post = ({ post }: any) => {
         <div className="relative aspect-video mb-3">
           <NextImage
             className="object-fit rounded-md"
-            image={post.mainImage}
+            src={post.mainImage.url}
+            fill
+            alt=""
           ></NextImage>
         </div>
         <div className="prose prose-slate max-w-full">
