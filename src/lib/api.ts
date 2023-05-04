@@ -2,7 +2,7 @@ export async function getManyPosts(page: number = 0, limit: number = 9) {
   const skip = page * limit;
   const entries = await fetchGraphQL(
     `query {
-      pageBlogPostCollection(order: publishedDate_DESC, skip: ${skip}, limit: ${limit}) {
+      postCollection(order: publishedDate_DESC, skip: ${skip}, limit: ${limit}) {
         items {
           title
           slug
@@ -13,7 +13,7 @@ export async function getManyPosts(page: number = 0, limit: number = 9) {
             height
           }
           publishedDate
-          tags: tagsCollection(limit: 5) {
+          tags: tagCollection(limit: 5) {
             items {
               name
             }
@@ -29,7 +29,7 @@ export async function getManyPosts(page: number = 0, limit: number = 9) {
 export async function getPostPaths() {
   const entries = await fetchGraphQL(
     `query {
-      pageBlogPostCollection {
+      postCollection {
         items {
           slug
         }
@@ -42,7 +42,7 @@ export async function getPostPaths() {
 export async function getTagPaths() {
   const entries = await fetchGraphQL(
     `query {
-      tagsCollection {
+      tagCollection {
         items {
           slug
         }
@@ -56,11 +56,11 @@ export async function getTagPaths() {
 export async function getOneTag(slug: string) {
   const entries = await fetchGraphQL(
     `query {
-      tagsCollection(where: { slug: "${slug}" }, limit: 1) {
+      tagCollection(where: { slug: "${slug}" }, limit: 1) {
         items {
           name
           linkedFrom {
-            pageBlogPostCollection {
+            postCollection {
               total
               items {
                 title
@@ -72,7 +72,7 @@ export async function getOneTag(slug: string) {
                   height
                 }
                 publishedDate
-                tags: tagsCollection(limit: 5) {
+                tags: tagCollection(limit: 5) {
                   items {
                     name
                   }
@@ -92,7 +92,7 @@ export async function getOneTag(slug: string) {
 export async function getOnePost(slug: string) {
   const entries = await fetchGraphQL(
     `query {
-      pageBlogPostCollection(where: { slug: "${slug}" }, limit: 1) {
+      postCollection(where: { slug: "${slug}" }, limit: 1) {
         items {
           title
           slug
@@ -103,7 +103,7 @@ export async function getOnePost(slug: string) {
             height
           }
           publishedDate
-          tags: tagsCollection(limit: 5) {
+          tags: tagCollection(limit: 5) {
             items {
               name
             }
@@ -150,27 +150,27 @@ async function fetchGraphQL(query: any, preview = false) {
 }
 
 function extractPostEntries(fetchResponse: any) {
-  return fetchResponse?.data?.pageBlogPostCollection?.items;
+  return fetchResponse?.data?.postCollection?.items;
 }
 
 function extractPostEntry(fetchResponse: any) {
-  return fetchResponse?.data?.pageBlogPostCollection?.items[0];
+  return fetchResponse?.data?.postCollection?.items[0];
 }
 
 function extractPostEntriesSlugs(fetchResponse: any) {
-  return fetchResponse?.data?.pageBlogPostCollection?.items.map(
+  return fetchResponse?.data?.postCollection?.items.map(
     (item: any) => item.slug
   );
 }
 
 function extractTagEntry(fetchResponse: any) {
-  const tag = fetchResponse?.data?.tagsCollection?.items[0];
-  tag.posts = tag.linkedFrom.pageBlogPostCollection.items;
+  const tag = fetchResponse?.data?.tagCollection?.items[0];
+  tag.posts = tag.linkedFrom.postCollection.items;
   return tag;
 }
 
 function extractTagEntriesSlugs(fetchResponse: any) {
-  return fetchResponse?.data?.tagsCollection?.items.map(
+  return fetchResponse?.data?.tagCollection?.items.map(
     (item: any) => item.slug
   );
 }
