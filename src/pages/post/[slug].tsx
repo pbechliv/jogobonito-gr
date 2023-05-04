@@ -26,7 +26,7 @@ const customMarkdownOptions = (content: any) => ({
   renderMark: {
     [MARKS.CODE]: (node: any) => {
       let wrapperClassName = "";
-      if (node.includes('src="https://www.youtube.com/embed')) {
+      if (node.includes('src="https://www.youtube')) {
         node = node.replace("<iframe", '<iframe class="youtube-iframe"');
         wrapperClassName = "youtube-container";
       }

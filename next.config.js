@@ -4,6 +4,15 @@ const nextConfig = {
   images: {
     domains: ["images.ctfassets.net"],
   },
+  async redirects() {
+    return [
+      {
+        source: "/page/0",
+        destination: "/",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

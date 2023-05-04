@@ -1,9 +1,9 @@
 import Posts from "../../components/posts";
 import Layout from "../../components/layout";
 import Seo from "../../components/seo";
-import { getOneTag, getTagPaths } from "@jogo/lib/api";
+import { getManyPosts } from "@jogo/lib/api";
 
-const Home = ({ posts }: any) => {
+const Page = ({ posts }: any) => {
   return (
     <Layout>
       <Seo />
@@ -13,25 +13,31 @@ const Home = ({ posts }: any) => {
 };
 
 export async function getStaticPaths() {
-  const paths = await getTagPaths();
-
+  const cachedPages = ["1", "2", "3", "4", "5"];
   return {
-    paths: paths.map((slug: any) => ({
+    paths: cachedPages.map((slug: string) => ({
       params: {
         slug,
       },
     })),
-    fallback: false,
+    fallback: "blocking",
   };
 }
 
 export async function getStaticProps({ params }: any) {
-  const tag = await getOneTag(params.slug);
+  const posts = await getManyPosts(params.slug);
+
+  if (!posts.length) {
+    return {
+      notFound: true,
+      revalidate: 60,
+    };
+  }
 
   return {
-    props: { tag },
+    props: { posts },
     revalidate: 60,
   };
 }
 
-export default Tag;
+export default Page;

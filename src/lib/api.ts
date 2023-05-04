@@ -1,7 +1,8 @@
-export async function getManyPosts() {
+export async function getManyPosts(page: number = 0, limit: number = 9) {
+  const skip = page * limit;
   const entries = await fetchGraphQL(
     `query {
-      pageBlogPostCollection(order: publishedDate_DESC) {
+      pageBlogPostCollection(order: publishedDate_DESC, skip: ${skip}, limit: ${limit}) {
         items {
           title
           slug
