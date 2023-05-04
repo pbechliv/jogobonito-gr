@@ -23,7 +23,7 @@ const Nav = () => {
             <Link href={`/tag/afieromata`}>Αφιερώματα</Link>
           </div>
           <div key={"podosfairo"} className="mx-1 p-2 max-md:hidden">
-            <Link href={`/tag/podosfairo`}>Ποδόσσφαιρο</Link>
+            <Link href={`/tag/podosfairo`}>Ποδόσφαιρο</Link>
           </div>
           <div key={"mpasket"} className="mx-1 p-2 max-md:hidden">
             <Link href={`/tag/mpasket`}>Μπάσκετ</Link>

@@ -3,19 +3,11 @@ import Layout from "../../components/layout";
 import Seo from "../../components/seo";
 import { getOneTag, getTagPaths } from "@jogo/lib/api";
 
-const Tag = ({ tag }: any) => {
-  const seo = {
-    metaTitle: tag.name,
-    metaDescription: `All ${tag.name} posts`,
-  };
-
+const Home = ({ posts }: any) => {
   return (
     <Layout>
-      <Seo seo={seo} />
-      <h1 className="text-2xl p-4 underline decoration-yellow-200">
-        {tag.name}
-      </h1>
-      <Posts posts={tag.posts} />
+      <Seo />
+      <Posts posts={posts} />
     </Layout>
   );
 };
@@ -38,7 +30,7 @@ export async function getStaticProps({ params }: any) {
 
   return {
     props: { tag },
-    revalidate: 1,
+    revalidate: 60,
   };
 }
 
