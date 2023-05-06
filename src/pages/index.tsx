@@ -1,5 +1,5 @@
 import Layout from "@jogo/components/layout";
-import Seo from "@jogo/components/seo";
+import { Seo } from "@jogo/components/seo";
 import Posts from "@jogo/components/posts";
 import { getManyPosts } from "@jogo/lib/api";
 import Card from "@jogo/components/card";

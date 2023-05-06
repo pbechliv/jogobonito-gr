@@ -1,42 +1,62 @@
+import { HOSTNAME } from "@jogo/lib/definitions";
 import Head from "next/head";
 
-const Seo = ({ seo }: any) => {
+const DEFAULT_TITLE = "jogobonito.gr";
+const DEFAULT_DESCRIPTION =
+  "Jogo Bonito σημαίνει «όμορφο παιχνίδι». Σελίδα αφιερωμένη στο ποδόσφαιρο, στο μπάσκετ και στα άλλα σπορ, μέσα και έξω από τους αγωνιστικούς χώρους.";
+const DEFAULT_IMAGE_URL =
+  "https://images.ctfassets.net/l9r5j1d42eo7/1XuR7HAX4knEU8Eft597wy/f64b2e84aa1b5592dfe0406a722495fa/socrates.jpeg";
+
+interface SeoProps {
+  title?: string;
+  description?: string;
+  imageUrl?: string;
+  isArticle?: boolean;
+  url?: string;
+}
+
+export const Seo = (props: SeoProps) => {
   const fullSeo = {
-    ...seo,
-    // Add title suffix
-    metaTitle: `jogobonito.gr`,
-    // Get full image URL
-    shareImage:
-      "https://images.ctfassets.net/l9r5j1d42eo7/1XuR7HAX4knEU8Eft597wy/f64b2e84aa1b5592dfe0406a722495fa/socrates.jpeg",
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+    imageUrl: DEFAULT_IMAGE_URL,
+    url: HOSTNAME,
+    isPost: false,
+    ...props,
   };
 
   return (
     <Head>
-      {fullSeo.metaTitle && (
+      <meta property="og:site_name" content="jogobonito.gr" />
+      <meta property="og:locale" content="el_GR" />
+      <meta property="og:url" content={fullSeo.url} />
+      <meta
+        property="og:type"
+        content={fullSeo.isArticle ? "article" : "website"}
+      />
+
+      {fullSeo.title && (
         <>
-          <title>{fullSeo.metaTitle}</title>
-          <meta property="og:title" content={fullSeo.metaTitle} />
-          <meta name="twitter:title" content={fullSeo.metaTitle} />
+          <title>{fullSeo.title}</title>
+          <meta property="og:title" content={fullSeo.title} />
+          <meta name="twitter:title" content={fullSeo.title} />
         </>
       )}
-      {fullSeo.metaDescription && (
+      {fullSeo.description && (
         <>
-          <meta name="description" content={fullSeo.metaDescription} />
-          <meta property="og:description" content={fullSeo.metaDescription} />
-          <meta name="twitter:description" content={fullSeo.metaDescription} />
+          <meta name="description" content={fullSeo.description} />
+          <meta property="og:description" content={fullSeo.description} />
+          <meta name="twitter:description" content={fullSeo.description} />
         </>
       )}
-      {fullSeo.shareImage && (
+      {fullSeo.imageUrl && (
         <>
-          <meta property="og:image" content={fullSeo.shareImage} />
-          <meta name="twitter:image" content={fullSeo.shareImage} />
-          <meta name="image" content={fullSeo.shareImage} />
+          <meta property="og:image" content={fullSeo.imageUrl} />
+          <meta name="twitter:image" content={fullSeo.imageUrl} />
+          <meta name="image" content={fullSeo.imageUrl} />
         </>
       )}
-      {fullSeo.post && <meta property="og:type" content="post" />}
       <meta name="twitter:card" content="summary_large_image" />
     </Head>
   );
 };
-
-export default Seo;

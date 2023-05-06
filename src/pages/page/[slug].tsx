@@ -1,12 +1,17 @@
 import Posts from "../../components/posts";
 import Layout from "../../components/layout";
-import Seo from "../../components/seo";
+import { Seo } from "../../components/seo";
 import { getManyPosts } from "@jogo/lib/api";
+import { useRouter } from "next/router";
+import { HOSTNAME } from "@jogo/lib/definitions";
 
 const Page = ({ posts }: any) => {
+  const router = useRouter();
+  const url = HOSTNAME + router.asPath;
+
   return (
     <Layout>
-      <Seo />
+      <Seo url={url} />
       <Posts posts={posts} />
     </Layout>
   );

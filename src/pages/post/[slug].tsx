@@ -1,11 +1,13 @@
 import { MARKS, BLOCKS } from "@contentful/rich-text-types";
 import Layout from "../../components/layout";
 import NextImage from "next/image";
-import Seo from "../../components/seo";
+import { Seo } from "../../components/seo";
 import { getOnePost, getPostPaths } from "@jogo/lib/api";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { Fragment } from "react";
 import RichTextAsset from "@jogo/components/rich-text-asset";
+import { useRouter } from "next/router";
+import { HOSTNAME } from "@jogo/lib/definitions";
 
 const customMarkdownOptions = (content: any) => ({
   renderNode: {
@@ -41,16 +43,18 @@ const customMarkdownOptions = (content: any) => ({
 });
 
 const Post = ({ post }: any) => {
-  const seo = {
-    metaTitle: post.title,
-    metaDescription: post.description,
-    shareImage: post.mainImage.url,
-    post: true,
-  };
+  const router = useRouter();
+  const url = HOSTNAME + router.asPath;
 
   return (
     <Layout>
-      <Seo seo={seo} />
+      <Seo
+        url={url}
+        imageUrl={post.mainImage.url}
+        title={post.title}
+        description={post.lead}
+        isArticle={true}
+      />
       <div className="px-4">
         <div className="prose max-w-full mb-3">
           <h1>{post.title}</h1>

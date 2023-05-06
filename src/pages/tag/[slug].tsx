@@ -1,17 +1,17 @@
 import Posts from "../../components/posts";
 import Layout from "../../components/layout";
-import Seo from "../../components/seo";
+import { Seo } from "../../components/seo";
 import { getOneTag, getTagPaths } from "@jogo/lib/api";
+import { useRouter } from "next/router";
+import { HOSTNAME } from "@jogo/lib/definitions";
 
 const Tag = ({ tag }: any) => {
-  const seo = {
-    metaTitle: tag.name,
-    metaDescription: `All ${tag.name} posts`,
-  };
+  const router = useRouter();
+  const url = HOSTNAME + router.asPath;
 
   return (
     <Layout>
-      <Seo seo={seo} />
+      <Seo url={url} />
       <h1 className="text-2xl font-semibold text-center p-4 underline decoration-yellow-200">
         {tag.name}
       </h1>
