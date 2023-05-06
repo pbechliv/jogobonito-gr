@@ -9,9 +9,8 @@ const PAGE_SIZE = 10;
 
 export default function Pagination(props: PaginationProps) {
   const router = useRouter();
-  const { slug } = router.query;
-
-  const pages = getVisibleItems(props.totalPosts, Number(slug) || 1);
+  const { page } = router.query;
+  const pages = getVisibleItems(props.totalPosts, Number(page) || 1);
 
   return (
     <div className="flex gap-2 w-100 justify-center">
@@ -30,7 +29,7 @@ export default function Pagination(props: PaginationProps) {
                 rounded-xl
                 p-2
               ${
-                pageItem === Number(slug) || (pageItem === 1 && !slug)
+                pageItem === Number(page) || (pageItem === 1 && !page)
                   ? `bg-yellow-200`
                   : ``
               }

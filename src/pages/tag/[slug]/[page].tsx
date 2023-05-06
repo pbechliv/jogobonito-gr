@@ -1,9 +1,10 @@
-import Posts from "../../components/posts";
-import Layout from "../../components/layout";
-import { Seo } from "../../components/seo";
+import Posts from "../../../components/posts";
+import Layout from "../../../components/layout";
+import { Seo } from "../../../components/seo";
 import { getManyTags, getOneTag, getTagPaths } from "@jogo/lib/api";
 import { useRouter } from "next/router";
 import { HOSTNAME } from "@jogo/lib/definitions";
+import Pagination from "@jogo/components/pagination";
 
 const Tag = ({ tag, tags }: any) => {
   const router = useRouter();
@@ -16,6 +17,7 @@ const Tag = ({ tag, tags }: any) => {
         {tag.name}
       </h1>
       <Posts posts={tag.posts} />
+      <Pagination totalPosts={tag.totalPosts} />
     </Layout>
   );
 };
@@ -27,6 +29,7 @@ export async function getStaticPaths() {
     paths: paths.map((slug: any) => ({
       params: {
         slug,
+        page: "1",
       },
     })),
     fallback: "blocking",
@@ -34,7 +37,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }: any) {
-  const tag = await getOneTag(params.slug);
+  const tag = await getOneTag(params.slug, params.page - 1);
   const { items: tags } = await getManyTags();
 
   return {

@@ -7,7 +7,7 @@ export const Categories = ({ tags }: any) => {
       <ul>
         {tags.map((tag: any) => (
           <li key={tag.slug}>
-            <Link href={`/tag/${tag.slug}`}>{tag.name}</Link>
+            <Link href={`/tag/${tag.slug}/1`}>{tag.name}</Link>
           </li>
         ))}
       </ul>

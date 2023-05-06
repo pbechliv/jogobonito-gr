@@ -70,14 +70,19 @@ export async function getTagPaths() {
   return extractTagEntriesSlugs(entries);
 }
 
-export async function getOneTag(slug: string) {
+export async function getOneTag(
+  slug: string,
+  page: number = 0,
+  limit: number = 10
+) {
+  const skip = page * limit;
   const entries = await fetchGraphQL(
     `query {
       tagCollection(where: { slug: "${slug}" }, limit: 1) {
         items {
           name
           linkedFrom {
-            postCollection {
+            postCollection(skip: ${skip}, limit: ${limit}) {
               total
               items {
                 title
@@ -186,6 +191,7 @@ function extractTagEntries(fetchResponse: any) {
 function extractTagEntry(fetchResponse: any) {
   const tag = fetchResponse?.data?.tagCollection?.items[0];
   tag.posts = tag.linkedFrom.postCollection.items;
+  tag.totalPosts = tag.linkedFrom.postCollection.total;
   return tag;
 }
 

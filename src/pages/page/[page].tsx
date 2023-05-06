@@ -22,9 +22,9 @@ const Page = ({ posts, totalPosts, tags }: any) => {
 export async function getStaticPaths() {
   const cachedPages = ["1", "2", "3", "4", "5"];
   return {
-    paths: cachedPages.map((slug: string) => ({
+    paths: cachedPages.map((page: string) => ({
       params: {
-        slug,
+        page,
       },
     })),
     fallback: "blocking",
@@ -32,7 +32,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }: any) {
-  const { items, total } = await getManyPosts(params.slug - 1);
+  const { items, total } = await getManyPosts(params.page - 1);
   const { items: tags } = await getManyTags();
 
   if (!items.length) {
