@@ -4,8 +4,9 @@ import { Seo } from "../../components/seo";
 import { getManyPosts } from "@jogo/lib/api";
 import { useRouter } from "next/router";
 import { HOSTNAME } from "@jogo/lib/definitions";
+import Pagination from "@jogo/components/pagination";
 
-const Page = ({ posts }: any) => {
+const Page = ({ posts, totalPosts }: any) => {
   const router = useRouter();
   const url = HOSTNAME + router.asPath;
 
@@ -13,6 +14,7 @@ const Page = ({ posts }: any) => {
     <Layout>
       <Seo url={url} />
       <Posts posts={posts} />
+      <Pagination totalPosts={totalPosts} />
     </Layout>
   );
 };
@@ -30,9 +32,9 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }: any) {
-  const posts = await getManyPosts(params.slug);
+  const { items, total } = await getManyPosts(params.slug - 1);
 
-  if (!posts.length) {
+  if (!items.length) {
     return {
       notFound: true,
       revalidate: 60,
@@ -40,7 +42,7 @@ export async function getStaticProps({ params }: any) {
   }
 
   return {
-    props: { posts },
+    props: { posts: items, totalPosts: total },
     revalidate: 60,
   };
 }

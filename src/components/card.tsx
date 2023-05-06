@@ -41,6 +41,7 @@ const Card = ({ post }: any) => {
               {post.title}
             </span>
           </h2>
+          <span className="text-sm text-slate-700">{post.lead}</span>
         </div>
       </div>
     </Link>
