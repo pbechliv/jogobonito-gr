@@ -1,13 +1,12 @@
 import Layout from "@jogo/components/layout";
 import { Seo } from "@jogo/components/seo";
 import Posts from "@jogo/components/posts";
-import { getManyPosts } from "@jogo/lib/api";
-import Card from "@jogo/components/card";
+import { getManyPosts, getManyTags } from "@jogo/lib/api";
 import Pagination from "@jogo/components/pagination";
 
-const Home = ({ posts, totalPosts }: any) => {
+const Home = ({ posts, totalPosts, tags }: any) => {
   return (
-    <Layout>
+    <Layout tags={tags}>
       <Seo />
       <Posts posts={posts} />
       <Pagination totalPosts={totalPosts} />
@@ -16,9 +15,10 @@ const Home = ({ posts, totalPosts }: any) => {
 };
 
 export async function getStaticProps() {
-  const { total, items } = (await getManyPosts(0)) ?? [];
+  const { total, items: posts } = (await getManyPosts(0)) ?? [];
+  const { items: tags } = await getManyTags();
   return {
-    props: { posts: items, totalPosts: total },
+    props: { posts, totalPosts: total, tags },
     revalidate: 60,
   };
 }

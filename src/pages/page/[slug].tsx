@@ -1,17 +1,17 @@
 import Posts from "../../components/posts";
 import Layout from "../../components/layout";
 import { Seo } from "../../components/seo";
-import { getManyPosts } from "@jogo/lib/api";
+import { getManyPosts, getManyTags } from "@jogo/lib/api";
 import { useRouter } from "next/router";
 import { HOSTNAME } from "@jogo/lib/definitions";
 import Pagination from "@jogo/components/pagination";
 
-const Page = ({ posts, totalPosts }: any) => {
+const Page = ({ posts, totalPosts, tags }: any) => {
   const router = useRouter();
   const url = HOSTNAME + router.asPath;
 
   return (
-    <Layout>
+    <Layout tags={tags}>
       <Seo url={url} />
       <Posts posts={posts} />
       <Pagination totalPosts={totalPosts} />
@@ -33,6 +33,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }: any) {
   const { items, total } = await getManyPosts(params.slug - 1);
+  const { items: tags } = await getManyTags();
 
   if (!items.length) {
     return {
@@ -42,7 +43,7 @@ export async function getStaticProps({ params }: any) {
   }
 
   return {
-    props: { posts: items, totalPosts: total },
+    props: { posts: items, totalPosts: total, tags },
     revalidate: 60,
   };
 }

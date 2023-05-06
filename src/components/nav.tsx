@@ -10,17 +10,17 @@ const rubik = Rubik_Vinyl({
 
 const Nav = () => {
   const router = useRouter();
-  const pages = [
-    { name: "Αφιερώματα", slug: "afieromata" },
-    { name: "Ποδόσφαιρο", slug: "podosfairo" },
-    { name: "Μπάσκετ", slug: "mpasket" },
-  ];
+  // const pages = [
+  //   { name: "Αφιερώματα", slug: "afieromata" },
+  //   { name: "Ποδόσφαιρο", slug: "podosfairo" },
+  //   { name: "Μπάσκετ", slug: "mpasket" },
+  // ];
 
   return (
     <div className="w-full p-4">
       <div>
         <nav className="flex justify-center">
-          <div className="flex flex-1 max-md:hidden"></div>
+          {/* <div className="flex flex-1 max-md:hidden"></div> */}
           <div className="flex flex-1 justify-center">
             <Link href="/">
               <div
@@ -30,7 +30,7 @@ const Nav = () => {
               </div>
             </Link>
           </div>
-          <div className="flex flex-1 justify-end items-center max-md:hidden">
+          {/* <div className="flex flex-1 justify-end items-center max-md:hidden">
             {pages.map((page) => (
               <div
                 key={page.slug}
@@ -43,7 +43,7 @@ const Nav = () => {
                 <Link href={`/tag/${page.slug}`}>{page.name}</Link>
               </div>
             ))}
-          </div>
+          </div> */}
         </nav>
       </div>
     </div>

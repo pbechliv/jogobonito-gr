@@ -12,7 +12,7 @@ export default function Pagination(props: PaginationProps) {
   const { slug } = router.query;
 
   const pages = getVisibleItems(props.totalPosts, Number(slug) || 1);
-  console.log(pages);
+
   return (
     <div className="flex gap-2 w-100 justify-center">
       {pages.map((pageItem, index) => {

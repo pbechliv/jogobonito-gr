@@ -15,7 +15,7 @@ const Card = ({ post }: any) => {
           />
         </div>
         <div>
-          <div className="flex gap-1 flex-wrap mt-2">
+          <div className="flex gap-1 flex-wrap mt-4">
             {post.tags.items.map((tag: any) => (
               <span
                 className="text-slate-700 text-xs border-2 border-yellow-200 rounded-xl p-1"

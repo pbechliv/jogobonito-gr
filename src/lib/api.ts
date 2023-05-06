@@ -27,6 +27,22 @@ export async function getManyPosts(page: number = 0, limit: number = 10) {
   return extractPostEntries(entries);
 }
 
+export async function getManyTags() {
+  const entries = await fetchGraphQL(
+    `query {
+      tagCollection(order: name_ASC) {
+        total
+        items {
+          name
+          slug
+        }
+      }
+    }`
+  );
+
+  return extractTagEntries(entries);
+}
+
 export async function getPostPaths() {
   const entries = await fetchGraphQL(
     `query {
@@ -161,6 +177,10 @@ function extractPostEntriesSlugs(fetchResponse: any) {
   return fetchResponse?.data?.postCollection?.items.map(
     (item: any) => item.slug
   );
+}
+
+function extractTagEntries(fetchResponse: any) {
+  return fetchResponse?.data?.tagCollection;
 }
 
 function extractTagEntry(fetchResponse: any) {

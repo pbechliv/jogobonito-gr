@@ -1,16 +1,16 @@
 import Posts from "../../components/posts";
 import Layout from "../../components/layout";
 import { Seo } from "../../components/seo";
-import { getOneTag, getTagPaths } from "@jogo/lib/api";
+import { getManyTags, getOneTag, getTagPaths } from "@jogo/lib/api";
 import { useRouter } from "next/router";
 import { HOSTNAME } from "@jogo/lib/definitions";
 
-const Tag = ({ tag }: any) => {
+const Tag = ({ tag, tags }: any) => {
   const router = useRouter();
   const url = HOSTNAME + router.asPath;
 
   return (
-    <Layout>
+    <Layout tags={tags}>
       <Seo url={url} />
       <h1 className="text-2xl font-semibold text-center p-4 underline decoration-yellow-200">
         {tag.name}
@@ -35,9 +35,10 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }: any) {
   const tag = await getOneTag(params.slug);
+  const { items: tags } = await getManyTags();
 
   return {
-    props: { tag },
+    props: { tag, tags },
     revalidate: 60,
   };
 }
