@@ -15,7 +15,7 @@ export async function generateStaticParams() {
   return cachedPages.map((page: string) => ({ page }));
 }
 
-export async function getPosts(page: string) {
+async function getData(page: string) {
   const { total: totalPosts, items: posts } = await getManyPosts(+page - 1);
   const { items: tags } = await getManyTags();
   return { posts, totalPosts, tags };
@@ -27,7 +27,7 @@ interface PageProps {
 }
 
 export default async function Page(props: PageProps) {
-  const { posts, totalPosts, tags } = await getPosts(props.params.page);
+  const { posts, totalPosts, tags } = await getData(props.params.page);
 
   return <PostListPage posts={posts} totalPosts={totalPosts} tags={tags} />;
 }

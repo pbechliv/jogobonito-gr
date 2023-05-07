@@ -22,7 +22,7 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function getData(slug: string) {
+async function getData(slug: string) {
   const post = await getOnePost(slug);
   const { items: tags } = await getManyTags();
 
