@@ -1,7 +1,13 @@
+import { EmbeddedAsset } from "@jogo/definitions";
 import NextImage from "next/image";
 
-export default function RichTextAsset({ id, assets }: any) {
-  const asset = assets?.find((asset: any) => asset.sys.id === id);
+interface RichTextAssetProps {
+  id: string;
+  assets: EmbeddedAsset[];
+}
+
+export default function RichTextAsset({ id, assets }: RichTextAssetProps) {
+  const asset = assets.find((asset) => asset.sys.id === id);
   if (asset?.url) {
     return (
       <p className="max-w-full max-h-full">

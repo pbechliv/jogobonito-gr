@@ -1,10 +1,21 @@
 "use client";
 
 import Layout from "@jogo/components/layout";
-import Posts from "@jogo/components/posts";
 import Pagination from "@jogo/components/pagination";
+import Posts from "@jogo/components/posts";
+import { Post, Tag } from "@jogo/definitions";
 
-const HomePostListPage = ({ posts, totalPosts, tags }: any) => {
+interface HomePostListPageProps {
+  posts: Post[];
+  totalPosts: number;
+  tags: Tag[];
+}
+
+const HomePostListPage = ({
+  posts,
+  totalPosts,
+  tags,
+}: HomePostListPageProps) => {
   return (
     <Layout tags={tags}>
       <Posts posts={posts} />

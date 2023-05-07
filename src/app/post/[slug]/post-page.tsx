@@ -1,20 +1,35 @@
-import { MARKS, BLOCKS } from "@contentful/rich-text-types";
-import NextImage from "next/image";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
-import { Fragment } from "react";
-import RichTextAsset from "@jogo/components/rich-text-asset";
+import {
+  BLOCKS,
+  Block,
+  Inline,
+  MARKS,
+  Text,
+} from "@contentful/rich-text-types";
 import Layout from "@jogo/components/layout";
+import RichTextAsset from "@jogo/components/rich-text-asset";
+import { PostContent, PostWithContent, Tag } from "@jogo/definitions";
+import NextImage from "next/image";
+import { Fragment } from "react";
 
-const customMarkdownOptions = (content: any) => ({
+function isTextNode(node: Text | Inline | Block): node is Text {
+  return (node as Text).marks !== undefined;
+}
+
+const customMarkdownOptions = (content: PostContent) => ({
   renderNode: {
-    [BLOCKS.PARAGRAPH]: (node: any, children: any) => {
-      if (node.content[0].marks.some((mark: any) => mark.type === MARKS.CODE)) {
+    [BLOCKS.PARAGRAPH]: (node: Inline | Block, children: React.ReactNode) => {
+      const internalNode = node.content[0];
+      if (
+        isTextNode(internalNode) &&
+        internalNode.marks.some((mark) => mark.type === MARKS.CODE)
+      ) {
         return <Fragment>{children}</Fragment>;
       } else {
         return <p>{children}</p>;
       }
     },
-    [BLOCKS.EMBEDDED_ASSET]: (node: any) => (
+    [BLOCKS.EMBEDDED_ASSET]: (node: Inline | Block) => (
       <RichTextAsset
         id={node.data.target.sys.id}
         assets={content.links.assets.block}
@@ -22,7 +37,10 @@ const customMarkdownOptions = (content: any) => ({
     ),
   },
   renderMark: {
-    [MARKS.CODE]: (node: any) => {
+    [MARKS.CODE]: (node: React.ReactNode) => {
+      if (typeof node !== "string") {
+        return node;
+      }
       let wrapperClassName = "";
       if (node.includes('src="https://www.youtube')) {
         node = node.replace("<iframe", '<iframe class="youtube-iframe"');
@@ -38,7 +56,12 @@ const customMarkdownOptions = (content: any) => ({
   },
 });
 
-const PostPage = ({ post, tags }: any) => {
+interface PostPageProps {
+  post: PostWithContent;
+  tags: Tag[];
+}
+
+const PostPage = ({ post, tags }: PostPageProps) => {
   return (
     <Layout tags={tags}>
       <div className="px-4">

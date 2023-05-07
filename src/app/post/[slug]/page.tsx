@@ -1,5 +1,6 @@
 import { getManyTags, getOnePost, getPostPaths } from "@jogo/lib/api";
 import { generateHeaderMetadata } from "@jogo/lib/generate-header-metadata";
+import { notFound } from "next/navigation";
 import PostPage from "./post-page";
 
 export const dynamicParams = true;
@@ -7,9 +8,9 @@ export const dynamicParams = true;
 export async function generateMetadata({ params }: PageProps) {
   const post = await getOnePost(params.slug);
   return generateHeaderMetadata({
-    title: post.title,
-    description: post.lead,
-    imageUrl: post.mainImage.url,
+    title: post?.title,
+    description: post?.lead,
+    imageUrl: post?.mainImage.url,
     isArticle: true,
     url: `post/${params.slug}`,
   });
@@ -17,7 +18,7 @@ export async function generateMetadata({ params }: PageProps) {
 
 export async function generateStaticParams() {
   const paths = await getPostPaths();
-  return paths.map((slug: any) => ({
+  return paths.map((slug) => ({
     slug,
   }));
 }
@@ -36,6 +37,8 @@ interface PageProps {
 
 export default async function Page(props: PageProps) {
   const { post, tags } = await getData(props.params.slug);
-
+  if (!post) {
+    notFound();
+  }
   return <PostPage post={post} tags={tags} />;
 }

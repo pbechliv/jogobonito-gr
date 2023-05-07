@@ -1,11 +1,15 @@
-import React from "react";
+import { Post } from "@jogo/definitions";
 import Card from "./card";
 
-const Posts = ({ posts }: any) => {
+interface PostsProps {
+  posts: Post[];
+}
+
+const Posts = ({ posts }: PostsProps) => {
   return (
     <div>
       <div className="grid gap-10 md:grid-cols-1">
-        {posts.map((post: any) => {
+        {posts.map((post) => {
           return <Card post={post} key={post.slug} />;
         })}
       </div>

@@ -1,50 +1,50 @@
+import {
+  GetManyPostsResponse,
+  GetManyTagsResponse,
+  GetOnePostResponse,
+  GetOneTagResponse,
+  GetPostPathsResponse,
+  GetTagPathsResponse,
+  PostFields,
+  PostWithContent,
+  PostWithContentFields,
+  TagFields,
+  TagWithPosts,
+} from "@jogo/definitions";
+
 export async function getManyPosts(page: number = 0, limit: number = 10) {
   const skip = page * limit;
-  const entries = await fetchGraphQL(
+  const entries: GetManyPostsResponse = await fetchGraphQL(
     `query {
       postCollection(order: publishedDate_DESC, skip: ${skip}, limit: ${limit}) {
         total
         items {
-          title
-          slug
-          lead
-          mainImage {
-            url
-            width
-            height
-          }
-          publishedDate
-          tags: tagCollection(limit: 5) {
-            items {
-              name
-            }
-          }
+          ${PostFields}
         }
       }
     }`
   );
 
-  return extractPostEntries(entries);
+  return entries.data.postCollection;
 }
 
 export async function getManyTags() {
-  const entries = await fetchGraphQL(
+  const entries: GetManyTagsResponse = await fetchGraphQL(
     `query {
       tagCollection(order: name_ASC) {
         total
         items {
-          name
-          slug
+          ${TagFields}
         }
       }
     }`
   );
 
-  return extractTagEntries(entries);
+  return entries.data.tagCollection;
 }
 
 export async function getPostPaths() {
-  const entries = await fetchGraphQL(
+  const entries: GetPostPathsResponse = await fetchGraphQL(
     `query {
       postCollection {
         items {
@@ -53,11 +53,11 @@ export async function getPostPaths() {
       }
     }`
   );
-  return extractPostEntriesSlugs(entries);
+  return entries.data.postCollection.items.map((post) => post.slug);
 }
 
 export async function getTagPaths() {
-  const entries = await fetchGraphQL(
+  const entries: GetTagPathsResponse = await fetchGraphQL(
     `query {
       tagCollection {
         items {
@@ -67,38 +67,25 @@ export async function getTagPaths() {
     }`
   );
 
-  return extractTagEntriesSlugs(entries);
+  return entries.data.tagCollection.items.map((tag) => tag.slug);
 }
 
 export async function getOneTag(
   slug: string,
   page: number = 0,
   limit: number = 10
-) {
+): Promise<TagWithPosts | undefined> {
   const skip = page * limit;
-  const entries = await fetchGraphQL(
+  const entries: GetOneTagResponse = await fetchGraphQL(
     `query {
       tagCollection(where: { slug: "${slug}" }, limit: 1) {
         items {
-          name
+          ${TagFields}
           linkedFrom {
-            postCollection(skip: ${skip}, limit: ${limit}) {
+            posts: postCollection(skip: ${skip}, limit: ${limit}) {
               total
               items {
-                title
-                slug
-                lead
-                mainImage {
-                  url
-                  width
-                  height
-                }
-                publishedDate
-                tags: tagCollection(limit: 5) {
-                  items {
-                    name
-                  }
-                }
+                ${PostFields}
               }
             }
           }
@@ -107,52 +94,25 @@ export async function getOneTag(
     }`
   );
 
-  return extractTagEntry(entries);
+  return entries.data.tagCollection.items[0];
 }
 
-export async function getOnePost(slug: string) {
-  const entries = await fetchGraphQL(
+export async function getOnePost(
+  slug: string
+): Promise<PostWithContent | undefined> {
+  const entries: GetOnePostResponse = await fetchGraphQL(
     `query {
       postCollection(where: { slug: "${slug}" }, limit: 1) {
         items {
-          title
-          slug
-          lead
-          mainImage {
-            url
-            width
-            height
-          }
-          publishedDate
-          tags: tagCollection(limit: 5) {
-            items {
-              name
-            }
-          }
-          content {
-            json
-            links {
-              assets {
-                block {
-                  sys {
-                    id
-                  }
-                  url
-                  description
-                  width
-                  height
-                }
-              }
-            }
-          }
+          ${PostWithContentFields}
         }
       }
     }`
   );
-  return extractPostEntry(entries);
+  return entries.data.postCollection.items[0];
 }
 
-async function fetchGraphQL(query: any, preview = false) {
+async function fetchGraphQL(query: string, preview = false) {
   return fetch(
     `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}`,
     {
@@ -169,35 +129,4 @@ async function fetchGraphQL(query: any, preview = false) {
       next: { revalidate: 60 },
     }
   ).then((response) => response.json());
-}
-
-function extractPostEntries(fetchResponse: any) {
-  return fetchResponse?.data?.postCollection;
-}
-
-function extractPostEntry(fetchResponse: any) {
-  return fetchResponse?.data?.postCollection?.items[0];
-}
-
-function extractPostEntriesSlugs(fetchResponse: any) {
-  return fetchResponse?.data?.postCollection?.items.map(
-    (item: any) => item.slug
-  );
-}
-
-function extractTagEntries(fetchResponse: any) {
-  return fetchResponse?.data?.tagCollection;
-}
-
-function extractTagEntry(fetchResponse: any) {
-  const tag = fetchResponse?.data?.tagCollection?.items[0];
-  tag.posts = tag.linkedFrom.postCollection.items;
-  tag.totalPosts = tag.linkedFrom.postCollection.total;
-  return tag;
-}
-
-function extractTagEntriesSlugs(fetchResponse: any) {
-  return fetchResponse?.data?.tagCollection?.items.map(
-    (item: any) => item.slug
-  );
 }

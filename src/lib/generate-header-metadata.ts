@@ -1,5 +1,5 @@
+import { HOSTNAME } from "@jogo/definitions/hostname";
 import { Metadata } from "next";
-import { HOSTNAME } from "./definitions";
 
 const DEFAULT_TITLE = "jogobonito.gr";
 const DEFAULT_DESCRIPTION =

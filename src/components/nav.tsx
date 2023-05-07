@@ -1,6 +1,5 @@
-import React from "react";
-import Link from "next/link";
 import { Rubik_Vinyl } from "next/font/google";
+import Link from "next/link";
 
 const rubik = Rubik_Vinyl({
   weight: "400",

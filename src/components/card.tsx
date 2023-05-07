@@ -1,8 +1,12 @@
-import React from "react";
-import Link from "next/link";
+import { Post } from "@jogo/definitions";
 import NextImage from "next/image";
+import Link from "next/link";
 
-const Card = ({ post }: any) => {
+interface CardProps {
+  post: Post;
+}
+
+const Card = ({ post }: CardProps) => {
   return (
     <Link href={`/post/${post.slug}`}>
       <div className="group cursor-pointer p-4">
@@ -16,7 +20,7 @@ const Card = ({ post }: any) => {
         </div>
         <div>
           <div className="flex gap-1 flex-wrap mt-4">
-            {post.tags.items.map((tag: any) => (
+            {post.tags.items.map((tag) => (
               <span
                 className="text-slate-700 text-xs border-2 border-yellow-200 rounded-xl p-1"
                 key={`${post.slug}__${tag.name}`}
