@@ -18,7 +18,7 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function getData(slug: string, page: string) {
+async function getData(slug: string, page: string) {
   const tag = await getOneTag(slug, +page - 1);
   const { items: tags } = await getManyTags();
 
