@@ -1,13 +1,9 @@
 import { MARKS, BLOCKS } from "@contentful/rich-text-types";
-import Layout from "../../components/layout";
 import NextImage from "next/image";
-import { Seo } from "../../components/seo";
-import { getManyTags, getOnePost, getPostPaths } from "@jogo/lib/api";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { Fragment } from "react";
 import RichTextAsset from "@jogo/components/rich-text-asset";
-import { useRouter } from "next/router";
-import { HOSTNAME } from "@jogo/lib/definitions";
+import Layout from "@jogo/components/layout";
 
 const customMarkdownOptions = (content: any) => ({
   renderNode: {
@@ -42,19 +38,9 @@ const customMarkdownOptions = (content: any) => ({
   },
 });
 
-const Post = ({ post, tags }: any) => {
-  const router = useRouter();
-  const url = HOSTNAME + router.asPath;
-
+const PostPage = ({ post, tags }: any) => {
   return (
     <Layout tags={tags}>
-      <Seo
-        url={url}
-        imageUrl={post.mainImage.url}
-        title={post.title}
-        description={post.lead}
-        isArticle={true}
-      />
       <div className="px-4">
         <div className="prose max-w-full mb-3">
           <h1>{post.title}</h1>
@@ -78,27 +64,4 @@ const Post = ({ post, tags }: any) => {
   );
 };
 
-export async function getStaticPaths() {
-  const paths = await getPostPaths();
-
-  return {
-    paths: paths.map((slug: any) => ({
-      params: {
-        slug,
-      },
-    })),
-    fallback: "blocking",
-  };
-}
-
-export async function getStaticProps({ params }: any) {
-  const post = await getOnePost(params.slug);
-  const { items: tags } = await getManyTags();
-
-  return {
-    props: { post, tags },
-    revalidate: 60,
-  };
-}
-
-export default Post;
+export default PostPage;

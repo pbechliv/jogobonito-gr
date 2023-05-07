@@ -166,6 +166,7 @@ async function fetchGraphQL(query: any, preview = false) {
         }`,
       },
       body: JSON.stringify({ query }),
+      next: { revalidate: 60 },
     }
   ).then((response) => response.json());
 }
