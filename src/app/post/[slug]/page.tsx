@@ -2,7 +2,7 @@ import { getManyTags, getOnePost, getPostPaths } from "@jogo/lib/api";
 import { generateHeaderMetadata } from "@jogo/lib/generate-header-metadata";
 import PostPage from "./post-page";
 
-export const dynamicParams = "blocking";
+export const dynamicParams = true;
 
 export async function generateMetadata({ params }: PageProps) {
   const post = await getOnePost(params.slug);
