@@ -14,7 +14,8 @@ const Card = ({ post }: CardProps) => {
           <NextImage
             className="object-cover transition-all rounded-md group-hover:scale-105"
             src={post.mainImage.url}
-            fill
+            width={640}
+            height={360}
             alt=""
           />
         </div>
