@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 
 interface PaginationProps {
   totalPosts: number;
@@ -8,8 +8,8 @@ interface PaginationProps {
 const PAGE_SIZE = 10;
 
 export default function Pagination(props: PaginationProps) {
-  const pageParam = useSearchParams()?.get("page");
-  const pages = getVisibleItems(props.totalPosts, Number(pageParam) || 1);
+  const page = useParams().page;
+  const pages = getVisibleItems(props.totalPosts, Number(page) || 1);
 
   return (
     <div className="flex gap-2 w-100 justify-center">
@@ -28,7 +28,7 @@ export default function Pagination(props: PaginationProps) {
                 rounded-xl
                 p-2
               ${
-                pageItem === Number(pageParam) || (pageItem === 1 && !pageParam)
+                pageItem === Number(page) || (pageItem === 1 && !page)
                   ? `bg-yellow-200`
                   : ``
               }
