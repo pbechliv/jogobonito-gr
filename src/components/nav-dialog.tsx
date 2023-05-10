@@ -13,8 +13,18 @@ export default function NavDialog({ tags, className }: NavDialogProps) {
   let [isOpen, setIsOpen] = useState(false);
 
   const tabs = ["Βασικές", "Όλες"];
-
-  const mainTags = tags.filter((tag) => tag.isMain);
+  const mainTagNamesSorted = [
+    "Αφιερώματα",
+    "Ποδόσφαιρο",
+    "Μπάσκετ",
+    "Άλλα Σπορ",
+  ];
+  const mainTags = tags
+    .filter((tag) => tag.isMain)
+    .sort(
+      (a, b) =>
+        mainTagNamesSorted.indexOf(a.name) - mainTagNamesSorted.indexOf(b.name)
+    );
   const secondaryTags = tags.filter((tag) => !tag.isMain);
 
   function closeModal() {
