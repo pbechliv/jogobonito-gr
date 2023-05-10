@@ -12,12 +12,14 @@ export const PostFields = `
         items {
             name
             slug
+            isMain
         }
     }`;
 
 export const TagFields = `
     name
     slug
+    isMain
 `;
 
 export const PostWithContentFields = `

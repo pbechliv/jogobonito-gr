@@ -9,6 +9,7 @@ export interface ContentfulImage {
 export interface Tag {
   name: string;
   slug: string;
+  isMain: boolean;
 }
 
 export interface TagWithPosts extends Tag {

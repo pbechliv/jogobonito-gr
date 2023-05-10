@@ -1,5 +1,8 @@
 import "@jogo/styles/globals.css";
+import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
+
+const inter = Inter({ subsets: ["latin", "greek"] });
 
 export default function RootLayout({
   children,
@@ -8,7 +11,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={inter.className}>{children}</body>
       <Analytics />
     </html>
   );

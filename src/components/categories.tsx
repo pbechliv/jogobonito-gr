@@ -7,11 +7,10 @@ interface CategoriesProps {
 
 export const Categories = ({ tags }: CategoriesProps) => {
   return (
-    <div className="pt-4 prose prose-sm max-md:hidden">
-      <h2 className="m-0">Κατηγορίες</h2>
-      <ul>
+    <div className="text-center h-full p-4">
+      <ul className="h-full overflow-y-scroll">
         {tags.map((tag) => (
-          <li key={tag.slug}>
+          <li key={tag.slug} className="p-2 border-b-2 border-yellow-200">
             <Link href={`/tag/${tag.slug}/1`}>{tag.name}</Link>
           </li>
         ))}

@@ -98,8 +98,7 @@ const PostPage = ({ post, tags }: PostPageProps) => {
           <NextImage
             className="object-fit rounded-md"
             src={post.mainImage.url}
-            width={640}
-            height={360}
+            fill
             alt=""
           ></NextImage>
         </div>
