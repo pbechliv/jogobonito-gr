@@ -1,6 +1,6 @@
 import { getManyPosts, getManyTags } from "@jogo/lib/api";
 import { generateHeaderMetadata } from "@jogo/lib/generate-header-metadata";
-import HomePostListPage from "./home-post-list-page";
+import { HomePostListPage } from "./home-post-list-page";
 
 export const metadata = generateHeaderMetadata({});
 

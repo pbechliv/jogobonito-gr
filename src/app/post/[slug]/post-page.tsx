@@ -7,8 +7,8 @@ import {
   MARKS,
   Text,
 } from "@contentful/rich-text-types";
-import Layout from "@jogo/components/layout";
-import RichTextAsset from "@jogo/components/rich-text-asset";
+import { Layout } from "@jogo/components/layout";
+import { RichTextAsset } from "@jogo/components/rich-text-asset";
 import { PostContent, PostWithContent, Tag } from "@jogo/definitions";
 import { format } from "date-fns";
 import NextImage from "next/image";
@@ -90,7 +90,7 @@ interface PostPageProps {
   tags: Tag[];
 }
 
-const PostPage = ({ post, tags }: PostPageProps) => {
+export const PostPage = ({ post, tags }: PostPageProps) => {
   return (
     <Layout tags={tags}>
       <div className="px-4">
@@ -127,5 +127,3 @@ const PostPage = ({ post, tags }: PostPageProps) => {
     </Layout>
   );
 };
-
-export default PostPage;

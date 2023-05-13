@@ -10,7 +10,7 @@ interface PaginationProps {
 
 const PAGE_SIZE = 10;
 
-export default function Pagination(props: PaginationProps) {
+export const Pagination = (props: PaginationProps) => {
   const page = useParams().page;
   const pages = getVisibleItems(props.totalPosts, Number(page) || 1);
 
@@ -29,7 +29,7 @@ export default function Pagination(props: PaginationProps) {
       })}
     </div>
   );
-}
+};
 
 const getVisibleItems = (totalItems: number, currentPage: number) => {
   const maxVisiblePages = 5; // always show 5 pages

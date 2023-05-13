@@ -1,7 +1,7 @@
 import { getManyTags, getOneTag, getTagPaths } from "@jogo/lib/api";
 import { generateHeaderMetadata } from "@jogo/lib/generate-header-metadata";
 import { notFound } from "next/navigation";
-import TagPostListPage from "./tag-post-list-page";
+import { TagPostListPage } from "./tag-post-list-page";
 
 export const dynamicParams = true;
 

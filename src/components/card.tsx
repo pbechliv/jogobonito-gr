@@ -6,7 +6,7 @@ interface CardProps {
   post: Post;
 }
 
-const Card = ({ post }: CardProps) => {
+export const Card = ({ post }: CardProps) => {
   return (
     <Link href={`/post/${post.slug}`}>
       <div className="group cursor-pointer p-4">
@@ -51,5 +51,3 @@ const Card = ({ post }: CardProps) => {
     </Link>
   );
 };
-
-export default Card;

@@ -1,7 +1,7 @@
 import { getManyTags, getOnePost, getPostPaths } from "@jogo/lib/api";
 import { generateHeaderMetadata } from "@jogo/lib/generate-header-metadata";
 import { notFound } from "next/navigation";
-import PostPage from "./post-page";
+import { PostPage } from "./post-page";
 
 export const dynamicParams = true;
 

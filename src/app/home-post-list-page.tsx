@@ -1,6 +1,6 @@
-import Layout from "@jogo/components/layout";
-import Pagination from "@jogo/components/pagination";
-import Posts from "@jogo/components/posts";
+import { Layout } from "@jogo/components/layout";
+import { Pagination } from "@jogo/components/pagination";
+import { Posts } from "@jogo/components/posts";
 import { Post, Tag } from "@jogo/definitions";
 
 interface HomePostListPageProps {
@@ -9,7 +9,7 @@ interface HomePostListPageProps {
   tags: Tag[];
 }
 
-const HomePostListPage = ({
+export const HomePostListPage = ({
   posts,
   totalPosts,
   tags,
@@ -21,5 +21,3 @@ const HomePostListPage = ({
     </Layout>
   );
 };
-
-export default HomePostListPage;

@@ -1,11 +1,11 @@
 import { Post } from "@jogo/definitions";
-import Card from "./card";
+import { Card } from "./card";
 
 interface PostsProps {
   posts: Post[];
 }
 
-const Posts = ({ posts }: PostsProps) => {
+export const Posts = ({ posts }: PostsProps) => {
   return (
     <div>
       <div className="grid gap-10">
@@ -16,5 +16,3 @@ const Posts = ({ posts }: PostsProps) => {
     </div>
   );
 };
-
-export default Posts;

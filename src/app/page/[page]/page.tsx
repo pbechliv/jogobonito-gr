@@ -1,6 +1,6 @@
 import { getManyPosts, getManyTags } from "@jogo/lib/api";
 import { generateHeaderMetadata } from "@jogo/lib/generate-header-metadata";
-import PostListPage from "./post-list-page";
+import { PostListPage } from "./post-list-page";
 
 export const dynamicParams = true;
 

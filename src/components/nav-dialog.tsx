@@ -1,7 +1,11 @@
 "use client";
 
 import { Dialog, Tab, Transition } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  Bars3Icon,
+  ChevronDownIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 import { Tag } from "@jogo/definitions";
 import { Fragment, useState } from "react";
 import { Categories } from "./categories";
@@ -11,7 +15,7 @@ interface NavDialogProps {
   className?: string;
 }
 
-export default function NavDialog({ tags, className }: NavDialogProps) {
+export const NavDialog = ({ tags, className }: NavDialogProps) => {
   let [isOpen, setIsOpen] = useState(false);
 
   const tabs = ["Βασικές", "Άλλες"];
@@ -41,11 +45,11 @@ export default function NavDialog({ tags, className }: NavDialogProps) {
     <div className={className}>
       <button
         onClick={openModal}
-        className={`
-            h-10 w-10 
-            rounded-full`}
+        className={`flex justify-end max-md:w-8 lg:w-32 gap-1 font-medium hover:underline`}
       >
-        <Bars3Icon className="h-6 w-6 m-auto" />
+        <span className="text-lg max-md:hidden">Κατηγορίες</span>
+        <ChevronDownIcon className="h-8 w-8 max-md:hidden" />
+        <Bars3Icon className="h-8 w-8 md:hidden" />
       </button>
 
       <Transition appear show={isOpen} as={Fragment}>
@@ -72,7 +76,7 @@ export default function NavDialog({ tags, className }: NavDialogProps) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="bg-white h-full w-3/4 p-6 flex flex-col">
+              <Dialog.Panel className="bg-white h-full w-72 p-6 flex flex-col">
                 <div className="flex justify-between items-center">
                   <Dialog.Title className="text-2xl">Κατηγορίες</Dialog.Title>
                   <button
@@ -114,4 +118,4 @@ export default function NavDialog({ tags, className }: NavDialogProps) {
       </Transition>
     </div>
   );
-}
+};

@@ -6,7 +6,7 @@ interface RichTextAssetProps {
   assets: EmbeddedAsset[];
 }
 
-export default function RichTextAsset({ id, assets }: RichTextAssetProps) {
+export const RichTextAsset = ({ id, assets }: RichTextAssetProps) => {
   const asset = assets.find((asset) => asset.sys.id === id);
   if (asset?.url) {
     return (
@@ -22,4 +22,4 @@ export default function RichTextAsset({ id, assets }: RichTextAssetProps) {
   }
 
   return null;
-}
+};
