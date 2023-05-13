@@ -1,5 +1,3 @@
-"use client";
-
 import { Tag } from "@jogo/definitions";
 import Nav from "./nav";
 

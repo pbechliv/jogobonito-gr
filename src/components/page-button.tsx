@@ -1,5 +1,3 @@
-"use client";
-
 interface PageButtonProps {
   pageIndex: number | null;
   currentPage: string;

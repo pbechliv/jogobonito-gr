@@ -1,5 +1,3 @@
-"use client";
-
 import { EmbeddedAsset } from "@jogo/definitions";
 import NextImage from "next/image";
 

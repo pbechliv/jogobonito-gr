@@ -1,9 +1,7 @@
-"use client";
-
+import { Tag } from "@jogo/definitions";
 import { Rubik_Vinyl } from "next/font/google";
 import Link from "next/link";
 import NavDialog from "./nav-dialog";
-import { Tag } from "@jogo/definitions";
 
 const rubik = Rubik_Vinyl({
   weight: "400",

@@ -1,5 +1,3 @@
-"use client";
-
 import Layout from "@jogo/components/layout";
 import Pagination from "@jogo/components/pagination";
 import Posts from "@jogo/components/posts";
