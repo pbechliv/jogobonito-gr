@@ -1,8 +1,8 @@
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import {
   BLOCKS,
-  INLINES,
   Block,
+  INLINES,
   Inline,
   MARKS,
   Text,
@@ -17,6 +17,23 @@ import { Fragment } from "react";
 function isTextNode(node: Text | Inline | Block): node is Text {
   return (node as Text).marks !== undefined;
 }
+
+function isString(node: React.ReactNode): node is string {
+  return typeof node === "string";
+}
+
+const HTML_REGEX = /<.*?>.*?<\/.*?>/g;
+
+const isFacebookPost = (node: string) =>
+  node.includes("https://www.facebook.com/plugins/post");
+
+const isFacebookVideo = (node: string) =>
+  node.includes("https://www.facebook.com/plugins/video");
+
+const isYoutubeVideo = (node: string) =>
+  node.includes("https://www.youtube.com/embed/");
+
+const isVideo = (node: string) => isYoutubeVideo(node) || isFacebookVideo(node);
 
 const customMarkdownOptions = (content: PostContent) => ({
   renderNode: {
@@ -47,13 +64,16 @@ const customMarkdownOptions = (content: PostContent) => ({
   },
   renderMark: {
     [MARKS.CODE]: (node: React.ReactNode) => {
-      if (typeof node !== "string") {
+      if (!isString(node) || !node.match(HTML_REGEX)) {
         return node;
       }
+
       let wrapperClassName = "";
-      if (node.includes('src="https://www.youtube')) {
-        node = node.replace("<iframe", '<iframe class="youtube-iframe"');
-        wrapperClassName = "youtube-container";
+      if (isVideo(node)) {
+        node = node.replace("<iframe", '<iframe class="video-iframe"');
+        wrapperClassName = "video-container";
+      } else if (isFacebookPost("https://www.facebook.com/plugins/post")) {
+        node = node.replace("<iframe", '<iframe class="facebook-post-iframe"');
       }
       return (
         <div
