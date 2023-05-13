@@ -1,6 +1,6 @@
 export const Footer = () => {
   return (
-    <div className="w-full flex h-16 gap-4 bg-yellow-100 justify-center items-center">
+    <div className="w-full flex h-16 gap-6 bg-yellow-100 justify-center items-center">
       <a
         href="https://www.facebook.com/JogoBonitoGreece"
         target="_blank"
