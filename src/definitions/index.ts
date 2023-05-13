@@ -1,3 +1,3 @@
 export * from "./objects.fields";
-export * from "./objects.interface";
-export * from "./responses.interface";
+export type * from "./objects.interface";
+export type * from "./responses.interface";
