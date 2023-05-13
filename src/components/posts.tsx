@@ -1,3 +1,5 @@
+"use client";
+
 import { Post } from "@jogo/definitions";
 import Card from "./card";
 

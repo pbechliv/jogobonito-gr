@@ -1,3 +1,5 @@
+"use client";
+
 import { Post } from "@jogo/definitions";
 import NextImage from "next/image";
 import Link from "next/link";

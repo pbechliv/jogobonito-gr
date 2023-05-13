@@ -1,3 +1,5 @@
+"use client";
+
 import { Tag } from "@jogo/definitions";
 import Link from "next/link";
 

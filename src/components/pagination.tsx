@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { PageButton } from "./page-button";
 
 interface PaginationProps {
   totalPosts: number;
@@ -14,38 +17,14 @@ export default function Pagination(props: PaginationProps) {
   return (
     <div className="flex gap-2 w-100 justify-center">
       {pages.map((pageItem, index) => {
-        if (pageItem) {
-          return (
-            <Link
-              key={pageItem}
-              href={pageItem === 1 ? "/" : `/page/${pageItem}`}
-            >
-              <div
-                className={`
-              text-slate-700 
-                border-2
-              border-yellow-200
-                rounded-xl
-                p-2
-              ${
-                pageItem === Number(page) || (pageItem === 1 && !page)
-                  ? `bg-yellow-200`
-                  : ``
-              }
-            `}
-              >
-                {pageItem ?? `...`}
-              </div>
-            </Link>
-          );
-        }
         return (
-          <div
-            key={`${index}-null`}
-            className="text-slate-700 border-2 border-yellow-200 rounded-xl p-2 pointer-events-none"
+          <Link
+            className={!pageItem ? "pointer-events-none" : ""}
+            key={pageItem ?? `${index}-null`}
+            href={pageItem === 1 ? "/" : `/page/${pageItem}`}
           >
-            {pageItem ?? `...`}
-          </div>
+            <PageButton pageIndex={pageItem} currentPage={page} />
+          </Link>
         );
       })}
     </div>
