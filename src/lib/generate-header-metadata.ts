@@ -1,4 +1,3 @@
-import { HOSTNAME } from "@jogo/definitions/hostname";
 import { Metadata } from "next";
 
 const DEFAULT_TITLE = "jogobonito.gr";
@@ -16,10 +15,12 @@ interface SeoProps {
 }
 
 export const generateHeaderMetadata = (props: SeoProps) => {
+  console.log(props.url);
   const metadata: Metadata = {
     title: props.title ?? DEFAULT_TITLE,
     description: props.description ?? DEFAULT_DESCRIPTION,
     applicationName: "jogobonito.gr",
+    icons: ["/icon.png"],
     authors: [
       {
         name: "Νεκτάριος Δαργάκης",
@@ -35,7 +36,7 @@ export const generateHeaderMetadata = (props: SeoProps) => {
     openGraph: {
       siteName: "jogobonito.gr",
       locale: "el_GR",
-      url: HOSTNAME + (props.url ?? ""),
+      url: `/${props.url ?? ""}`,
       type: props.isArticle ? "article" : "website",
       title: props.title ?? DEFAULT_TITLE,
       description: props.description ?? DEFAULT_DESCRIPTION,

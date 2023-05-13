@@ -10,7 +10,6 @@ import {
 import Layout from "@jogo/components/layout";
 import RichTextAsset from "@jogo/components/rich-text-asset";
 import { PostContent, PostWithContent, Tag } from "@jogo/definitions";
-import { HOSTNAME } from "@jogo/definitions/hostname";
 import { format } from "date-fns";
 import NextImage from "next/image";
 import { Fragment } from "react";
@@ -39,12 +38,8 @@ const customMarkdownOptions = (content: PostContent) => ({
       />
     ),
     [INLINES.HYPERLINK]: (node: Inline | Block, children: React.ReactNode) => {
-      console.log(node.data.uri);
       return (
-        <a
-          href={node.data.uri}
-          target={node.data.uri.startsWith(HOSTNAME) ? "_self" : "_blank"}
-        >
+        <a href={node.data.uri} target={"_blank"}>
           {children}
         </a>
       );
