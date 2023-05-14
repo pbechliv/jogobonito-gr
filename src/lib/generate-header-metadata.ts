@@ -19,7 +19,6 @@ interface SeoProps {
 }
 
 export const generateHeaderMetadata = (props: SeoProps) => {
-  console.log(props.url);
   const metadata: Metadata = {
     metadataBase: new URL(BASE_URL),
     title: props.title ?? DEFAULT_TITLE,

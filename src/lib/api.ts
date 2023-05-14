@@ -11,6 +11,7 @@ import {
   TagFields,
   TagWithPosts,
 } from "@jogo/definitions";
+import { PAGE_SIZE } from "./page-size";
 
 export async function getManyPosts(page: number = 0, limit: number = 10) {
   const skip = page * limit;
@@ -82,7 +83,7 @@ export async function getOneTag(
         items {
           ${TagFields}
           linkedFrom {
-            posts: postCollection(skip: ${skip}, limit: ${limit}) {
+            posts: postCollection {
               total
               items {
                 ${PostFields}
@@ -94,6 +95,15 @@ export async function getOneTag(
     }`
   );
 
+  const posts = [...entries.data.tagCollection.items[0].linkedFrom.posts.items];
+  posts.sort(
+    (a, b) =>
+      new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime()
+  );
+  posts.splice(0, skip);
+  posts.splice(PAGE_SIZE);
+
+  entries.data.tagCollection.items[0].linkedFrom.posts.items = posts;
   return entries.data.tagCollection.items[0];
 }
 

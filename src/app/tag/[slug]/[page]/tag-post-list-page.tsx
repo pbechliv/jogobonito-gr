@@ -2,6 +2,7 @@ import { Layout } from "@jogo/components/layout";
 import { Pagination } from "@jogo/components/pagination";
 import { Posts } from "@jogo/components/posts";
 import { Tag, TagWithPosts } from "@jogo/definitions";
+import { PageParamEnum } from "@jogo/lib/page-param.enum";
 
 interface TagListPageProps {
   tag: TagWithPosts;
@@ -15,7 +16,10 @@ export const TagPostListPage = ({ tag, tags }: TagListPageProps) => {
         {tag.name}
       </h1>
       <Posts posts={tag.linkedFrom.posts.items} />
-      <Pagination totalPosts={tag.linkedFrom.posts.total} />
+      <Pagination
+        totalPosts={tag.linkedFrom.posts.total}
+        pageParam={PageParamEnum.TAG}
+      />
     </Layout>
   );
 };

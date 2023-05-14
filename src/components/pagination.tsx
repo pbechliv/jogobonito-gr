@@ -1,27 +1,29 @@
 "use client";
 
+import { PageParamEnum } from "@jogo/lib/page-param.enum";
+import { PAGE_SIZE } from "@jogo/lib/page-size";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { PageButton } from "./page-button";
 
 interface PaginationProps {
   totalPosts: number;
+  pageParam?: PageParamEnum;
 }
 
-const PAGE_SIZE = 10;
-
 export const Pagination = (props: PaginationProps) => {
-  const page = useParams().page;
+  const { slug, page } = useParams();
   const pages = getVisibleItems(props.totalPosts, Number(page) || 1);
 
   return (
     <div className="flex gap-2 w-100 justify-center">
       {pages.map((pageItem, index) => {
+        const uri = `/${props.pageParam}${slug ? `/${slug}` : ""}/${pageItem}`;
         return (
           <Link
             className={!pageItem ? "pointer-events-none" : ""}
             key={pageItem ?? `${index}-null`}
-            href={pageItem === 1 ? "/" : `/page/${pageItem}`}
+            href={uri}
           >
             <PageButton pageIndex={pageItem} currentPage={page} />
           </Link>

@@ -2,6 +2,7 @@ import { Layout } from "@jogo/components/layout";
 import { Pagination } from "@jogo/components/pagination";
 import { Posts } from "@jogo/components/posts";
 import { Post, Tag } from "@jogo/definitions";
+import { PageParamEnum } from "@jogo/lib/page-param.enum";
 
 interface PostListPageProps {
   posts: Post[];
@@ -17,7 +18,7 @@ export const PostListPage = ({
   return (
     <Layout tags={tags}>
       <Posts posts={posts} />
-      <Pagination totalPosts={totalPosts} />
+      <Pagination totalPosts={totalPosts} pageParam={PageParamEnum.PAGE} />
     </Layout>
   );
 };

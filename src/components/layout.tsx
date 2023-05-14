@@ -8,11 +8,9 @@ interface LayoutProps {
 }
 
 export const Layout = ({ children, tags }: LayoutProps) => (
-  <div>
+  <div className="min-h-screen flex flex-col">
     <Nav tags={tags} />
-    <main className={`pb-10 m-auto max-w-4xl grid gap-1`}>
-      <div>{children}</div>
-    </main>
+    <main className={`pb-10 m-auto max-w-4xl flex-1`}>{children}</main>
     <Footer />
   </div>
 );
