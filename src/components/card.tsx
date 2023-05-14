@@ -1,5 +1,5 @@
 import { Post } from "@jogo/definitions";
-import NextImage from "next/image";
+import Image from "next/image";
 import Link from "next/link";
 
 interface CardProps {
@@ -8,16 +8,16 @@ interface CardProps {
 
 export const Card = ({ post }: CardProps) => {
   return (
-    <div className="p-4">
+    <div className="p-4 max-w-4xl ">
       <Link href={`/post/${post.slug}`}>
-        <div className="relative aspect-video">
-          <NextImage
-            className="object-cover transition-all rounded-md hover:scale-105"
-            src={post.mainImage.url}
-            fill
-            alt=""
-          />
-        </div>
+        <Image
+          className="transition-all object-cover aspect-video rounded-md hover:scale-105"
+          src={post.mainImage.url}
+          priority
+          width={864}
+          height={486}
+          alt=""
+        />
       </Link>
       <div className="flex gap-1 flex-wrap mt-4">
         {post.tags.items.map((tag) => (

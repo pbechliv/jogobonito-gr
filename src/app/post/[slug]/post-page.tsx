@@ -11,7 +11,7 @@ import { Layout } from "@jogo/components/layout";
 import { RichTextAsset } from "@jogo/components/rich-text-asset";
 import { PostContent, PostWithContent, Tag } from "@jogo/definitions";
 import { format } from "date-fns";
-import NextImage from "next/image";
+import Image from "next/image";
 import { Fragment } from "react";
 
 function isTextNode(node: Text | Inline | Block): node is Text {
@@ -101,7 +101,8 @@ export const PostPage = ({ post, tags }: PostPageProps) => {
           <span>{format(new Date(post.publishedDate), "dd/MM/yyyy")}</span>
           <span> | </span>
           <span>Νεκτάριος Δαργάκης</span>
-          <NextImage
+          <Image
+            priority
             className="rounded-full"
             src="/nectarios.jpeg"
             width={36}
@@ -109,14 +110,14 @@ export const PostPage = ({ post, tags }: PostPageProps) => {
             alt=""
           />
         </div>
-        <div className="relative aspect-video mb-3">
-          <NextImage
-            className="object-fit rounded-md"
-            src={post.mainImage.url}
-            fill
-            alt=""
-          ></NextImage>
-        </div>
+        <Image
+          priority
+          className="object-cover aspect-video rounded-md mb-3"
+          src={post.mainImage.url}
+          width={864}
+          height={486}
+          alt=""
+        ></Image>
         <div className="prose prose-slate max-w-full">
           {documentToReactComponents(
             post.content.json,

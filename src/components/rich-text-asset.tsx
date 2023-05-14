@@ -1,5 +1,5 @@
 import { EmbeddedAsset } from "@jogo/definitions";
-import NextImage from "next/image";
+import Image from "next/image";
 
 interface RichTextAssetProps {
   id: string;
@@ -11,7 +11,7 @@ export const RichTextAsset = ({ id, assets }: RichTextAssetProps) => {
   if (asset?.url) {
     return (
       <p className="max-w-full max-h-full">
-        <NextImage
+        <Image
           src={asset.url}
           width={asset.width}
           height={asset.height}
