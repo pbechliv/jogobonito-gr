@@ -23,7 +23,7 @@ export const Card = ({ post }: CardProps) => {
         {post.tags.items.map((tag) => (
           <Link
             href={`/tag/${tag.slug}/1`}
-            className="text-slate-700 text-xs border-2 border-yellow-200 rounded-xl p-1 hover:scale-105 hover:bg-yellow-200 hover:border-slate-700"
+            className="text-slate-700 text-xs border-2 border-yellow-200 rounded-xl p-1 hover:scale-105 hover:bg-yellow-100"
             key={`${post.slug}__${tag.name}`}
           >
             {tag.name}

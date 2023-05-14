@@ -16,6 +16,7 @@ export const PageButton = ({ pageIndex, currentPage }: PageButtonProps) => {
         rounded-full
         p-1
         leading-7
+        hover:bg-yellow-100
         ${isActive ? `bg-yellow-200 border-slate-700` : `border-yellow-200`}
         ${!pageIndex ? `pointer-events-none` : ``}
       `}
