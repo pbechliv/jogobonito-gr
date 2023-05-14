@@ -18,7 +18,7 @@ export const Footer = () => {
         </svg>
       </a>
       <a
-        href="https://twitter.com/Nec_Darg"
+        href="https://www.instagram.com/jogobonito.gr"
         target="_blank"
         role="button"
         className="hover:scale-105"
@@ -34,7 +34,7 @@ export const Footer = () => {
         </svg>
       </a>
       <a
-        href="https://www.instagram.com/jogobonito.gr/"
+        href="https://twitter.com/Nec_Darg"
         target="_blank"
         role="button"
         className="hover:scale-105"
