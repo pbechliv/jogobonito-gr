@@ -8,30 +8,32 @@ interface CardProps {
 
 export const Card = ({ post }: CardProps) => {
   return (
-    <Link href={`/post/${post.slug}`}>
-      <div className="group cursor-pointer p-4">
+    <div className="p-4">
+      <Link href={`/post/${post.slug}`}>
         <div className="relative aspect-video">
           <NextImage
-            className="object-cover transition-all rounded-md group-hover:scale-105"
+            className="object-cover transition-all rounded-md hover:scale-105"
             src={post.mainImage.url}
             fill
             alt=""
           />
         </div>
-        <div>
-          <div className="flex gap-1 flex-wrap mt-4">
-            {post.tags.items.map((tag) => (
-              <span
-                className="text-slate-700 text-xs border-2 border-yellow-200 rounded-xl p-1"
-                key={`${post.slug}__${tag.name}`}
-              >
-                {tag.name}
-              </span>
-            ))}
-          </div>
-          <h2 className="text-lg font-semibold leading-snug tracking-tight">
-            <span
-              className="
+      </Link>
+      <div className="flex gap-1 flex-wrap mt-4">
+        {post.tags.items.map((tag) => (
+          <Link
+            href={`/tag/${tag.slug}/1`}
+            className="text-slate-700 text-xs border-2 border-yellow-200 rounded-xl p-1 hover:scale-105 hover:bg-yellow-200 hover:border-slate-700"
+            key={`${post.slug}__${tag.name}`}
+          >
+            {tag.name}
+          </Link>
+        ))}
+      </div>
+      <Link href={`/post/${post.slug}`} className="group">
+        <h2 className="text-lg font-semibold leading-snug tracking-tight mt-2">
+          <span
+            className="
                 bg-gradient-to-r
               from-yellow-200 
               to-yellow-100 
@@ -41,13 +43,12 @@ export const Card = ({ post }: CardProps) => {
                 duration-500
                 group-hover:bg-[length:100%_10px]
                 "
-            >
-              {post.title}
-            </span>
-          </h2>
-          <span className="text-sm text-slate-700">{post.lead}</span>
-        </div>
-      </div>
-    </Link>
+          >
+            {post.title}
+          </span>
+        </h2>
+        <span className="text-sm text-slate-700">{post.lead}</span>
+      </Link>
+    </div>
   );
 };
