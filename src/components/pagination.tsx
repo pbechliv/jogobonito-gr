@@ -13,6 +13,8 @@ interface PaginationProps {
 
 export const Pagination = (props: PaginationProps) => {
   const { slug, page } = useParams();
+  if (Array.isArray(page)) throw new Error("page should not be an array");
+
   const pages = getVisibleItems(props.totalPosts, Number(page) || 1);
 
   return (
