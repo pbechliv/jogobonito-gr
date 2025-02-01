@@ -4,6 +4,7 @@ import { PageParamEnum } from "@jogo/lib/page-param.enum";
 import { PAGE_SIZE } from "@jogo/lib/page-size";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { Fragment } from "react";
 import { PageButton } from "./page-button";
 
 interface PaginationProps {
@@ -14,6 +15,8 @@ interface PaginationProps {
 export const Pagination = (props: PaginationProps) => {
   const { slug, page } = useParams();
   if (Array.isArray(page)) throw new Error("page should not be an array");
+
+  if (!page) return <Fragment></Fragment>;
 
   const pages = getVisibleItems(props.totalPosts, Number(page) || 1);
 
