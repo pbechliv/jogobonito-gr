@@ -4,7 +4,8 @@ import { PostListPage } from "./post-list-page";
 
 export const dynamicParams = true;
 
-export async function generateMetadata({ params }: PageProps) {
+export async function generateMetadata(props: PageProps) {
+  const params = await props.params;
   return generateHeaderMetadata({
     url: `tag/${params.page}`,
   });
@@ -22,12 +23,12 @@ async function getData(page: string) {
 }
 
 interface PageProps {
-  params: { page: string };
-  searchParams: {};
+  params: Promise<{ page: string }>;
+  searchParams: Promise<{}>;
 }
 
 export default async function Page(props: PageProps) {
-  const { posts, totalPosts, tags } = await getData(props.params.page);
+  const { posts, totalPosts, tags } = await getData((await props.params).page);
 
   return <PostListPage posts={posts} totalPosts={totalPosts} tags={tags} />;
 }

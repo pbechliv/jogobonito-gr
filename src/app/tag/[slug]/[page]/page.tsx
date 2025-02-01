@@ -5,7 +5,8 @@ import { TagPostListPage } from "./tag-post-list-page";
 
 export const dynamicParams = true;
 
-export async function generateMetadata({ params }: PageProps) {
+export async function generateMetadata(props: PageProps) {
+  const params = await props.params;
   return generateHeaderMetadata({
     url: `tag/${params.slug}/${params.page}`,
   });
@@ -27,11 +28,12 @@ async function getData(slug: string, page: string) {
 }
 
 interface PageProps {
-  params: { slug: string; page: string };
-  searchParams: {};
+  params: Promise<{ slug: string; page: string }>;
+  searchParams: Promise<{}>;
 }
 
-export default async function Page({ params }: PageProps) {
+export default async function Page(props: PageProps) {
+  const params = await props.params;
   const { tag, tags } = await getData(params.slug, params.page);
   if (!tag) {
     notFound();

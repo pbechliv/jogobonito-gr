@@ -5,7 +5,8 @@ import { PostPage } from "./post-page";
 
 export const dynamicParams = true;
 
-export async function generateMetadata({ params }: PageProps) {
+export async function generateMetadata(props: PageProps) {
+  const params = await props.params;
   const post = await getOnePost(params.slug);
   return generateHeaderMetadata({
     title: post?.title,
@@ -31,12 +32,12 @@ async function getData(slug: string) {
 }
 
 interface PageProps {
-  params: { slug: string };
-  searchParams: {};
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{}>;
 }
 
 export default async function Page(props: PageProps) {
-  const { post, tags } = await getData(props.params.slug);
+  const { post, tags } = await getData((await props.params).slug);
   if (!post) {
     notFound();
   }
