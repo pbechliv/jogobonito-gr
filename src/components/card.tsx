@@ -34,7 +34,7 @@ export const Card = ({ post }: CardProps) => {
         <h2 className="text-lg font-semibold leading-snug tracking-tight mt-2">
           <span
             className="
-                bg-gradient-to-r
+                bg-linear-to-r
               from-yellow-200 
               to-yellow-100 
                 bg-[length:0px_10px] 
