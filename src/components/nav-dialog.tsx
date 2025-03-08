@@ -1,11 +1,19 @@
 "use client";
 
-import { Dialog, Tab, Transition } from "@headlessui/react";
 import {
-  Bars3Icon,
-  ChevronDownIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
+  Button,
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+  Tab,
+  TabGroup,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Transition,
+  TransitionChild,
+} from "@headlessui/react";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Tag } from "@jogo/definitions";
 import { Fragment, useState } from "react";
 import { Categories } from "./categories";
@@ -43,18 +51,18 @@ export const NavDialog = ({ tags, className }: NavDialogProps) => {
 
   return (
     <div className={className}>
-      <button
+      <Button
         onClick={openModal}
-        className={`flex justify-end max-md:w-8 lg:w-32 gap-1 font-medium hover:underline`}
+        className="
+          rounded bg-yellow-100 py-2 px-4 text-sm text-black data-[hover]:bg-yellow-200 data-[active]:bg-yellow-200 cursor-pointer"
       >
         <span className="text-lg max-md:hidden">Κατηγορίες</span>
-        <ChevronDownIcon className="h-8 w-8 max-md:hidden" />
         <Bars3Icon className="h-8 w-8 md:hidden" />
-      </button>
+      </Button>
 
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog onClose={closeModal}>
-          <Transition.Child
+          <TransitionChild
             as={Fragment}
             enter="ease-out duration-300"
             enterFrom="opacity-0"
@@ -64,10 +72,10 @@ export const NavDialog = ({ tags, className }: NavDialogProps) => {
             leaveTo="opacity-0"
           >
             <div className="fixed inset-0 bg-black/50" />
-          </Transition.Child>
+          </TransitionChild>
 
           <div className="fixed inset-0 flex justify-end items-center">
-            <Transition.Child
+            <TransitionChild
               as={Fragment}
               enter="ease-out duration-300"
               enterFrom="opacity-0 scale-95"
@@ -76,18 +84,18 @@ export const NavDialog = ({ tags, className }: NavDialogProps) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="bg-white h-full w-72 p-6 flex flex-col">
+              <DialogPanel className="bg-white h-full w-72 p-6 flex flex-col overflow-y-scroll">
                 <div className="flex justify-between items-center">
-                  <Dialog.Title className="text-2xl">Κατηγορίες</Dialog.Title>
+                  <DialogTitle className="text-2xl">Κατηγορίες</DialogTitle>
                   <button
                     onClick={closeModal}
-                    className={`h-10 w-10 rounded-full`}
+                    className={`h-10 w-10 rounded-full cursor-pointer`}
                   >
                     <XMarkIcon className="h-6 w-6 m-auto" />
                   </button>
                 </div>
-                <Tab.Group>
-                  <Tab.List className={"mt-2 flex gap-4 justify-evenly"}>
+                <TabGroup>
+                  <TabList className={"mt-2 flex gap-4 justify-evenly"}>
                     {tabs.map((tab) => (
                       <Tab key={tab} as={Fragment}>
                         {({ selected }) => (
@@ -101,18 +109,18 @@ export const NavDialog = ({ tags, className }: NavDialogProps) => {
                         )}
                       </Tab>
                     ))}
-                  </Tab.List>
-                  <Tab.Panels className="mt-2 overflow-y-scroll">
-                    <Tab.Panel>
+                  </TabList>
+                  <TabPanels className="mt-2 overflow-y-scroll">
+                    <TabPanel>
                       <Categories tags={mainTags} />
-                    </Tab.Panel>
-                    <Tab.Panel>
+                    </TabPanel>
+                    <TabPanel>
                       <Categories tags={secondaryTags} />
-                    </Tab.Panel>
-                  </Tab.Panels>
-                </Tab.Group>
-              </Dialog.Panel>
-            </Transition.Child>
+                    </TabPanel>
+                  </TabPanels>
+                </TabGroup>
+              </DialogPanel>
+            </TransitionChild>
           </div>
         </Dialog>
       </Transition>

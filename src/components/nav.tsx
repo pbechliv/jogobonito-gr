@@ -20,7 +20,7 @@ export const Nav = ({ tags }: NavProps) => {
         <div className="flex flex-1 justify-center">
           <Link href="/">
             <div
-              className={`px-2 max-lg:text-4xl lg:text-6xl text-yellow-300 ${rubik.className} hover:scale-105`}
+              className={`px-2 py-2 max-lg:text-4xl lg:text-6xl text-black-300 ${rubik.className} hover:scale-105 bg-yellow-100 rounded-lg`}
             >
               Jogo Bonito
             </div>

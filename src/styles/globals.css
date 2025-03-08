@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @plugin '@tailwindcss/typography';
 
@@ -21,7 +21,6 @@
 }
 
 body::before {
-  background: linear-gradient(360deg, rgba(96, 174, 252, 0), rgb(81, 168, 254));
   content: "";
   display: block;
   height: 200px;
