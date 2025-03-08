@@ -118,6 +118,10 @@ export const PostPage = ({ post, tags }: PostPageProps) => {
           height={486}
           alt=""
         ></Image>
+        <div className="prose prose-slate max-w-full mb-6">
+          <p className="text-xl font-medium text-gray-700">{post.lead}</p>
+        </div>
+        <hr className="w-1/3 mx-auto mb-8 border-gray-200" />
         <div className="prose prose-slate max-w-full">
           {documentToReactComponents(
             post.content.json,
