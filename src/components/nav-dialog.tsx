@@ -15,6 +15,7 @@ import {
 } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Tag } from "@jogo/definitions";
+import { MAIN_TAG_NAMES_SORTED } from "@jogo/lib/main-tag-names-sorted";
 import { Fragment, useState } from "react";
 import { Categories } from "./categories";
 
@@ -27,17 +28,12 @@ export const NavDialog = ({ tags, className }: NavDialogProps) => {
   let [isOpen, setIsOpen] = useState(false);
 
   const tabs = ["Βασικές", "Άλλες"];
-  const mainTagNamesSorted = [
-    "Αφιερώματα",
-    "Ποδόσφαιρο",
-    "Μπάσκετ",
-    "Άλλα Σπορ",
-  ];
   const mainTags = tags
     .filter((tag) => tag.isMain)
     .sort(
       (a, b) =>
-        mainTagNamesSorted.indexOf(a.name) - mainTagNamesSorted.indexOf(b.name)
+        MAIN_TAG_NAMES_SORTED.indexOf(a.name) -
+        MAIN_TAG_NAMES_SORTED.indexOf(b.name),
     );
   const secondaryTags = tags.filter((tag) => !tag.isMain);
 
