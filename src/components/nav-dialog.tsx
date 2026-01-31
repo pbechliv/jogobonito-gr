@@ -27,13 +27,13 @@ interface NavDialogProps {
 export const NavDialog = ({ tags, className }: NavDialogProps) => {
   let [isOpen, setIsOpen] = useState(false);
 
-  const tabs = ["Βασικές", "Άλλες"];
+  const tabs = ["Βασικές", "Περισσότερα"];
   const mainTags = tags
     .filter((tag) => tag.isMain)
     .sort(
       (a, b) =>
         MAIN_TAG_NAMES_SORTED.indexOf(a.name) -
-        MAIN_TAG_NAMES_SORTED.indexOf(b.name),
+        MAIN_TAG_NAMES_SORTED.indexOf(b.name)
     );
   const secondaryTags = tags.filter((tag) => !tag.isMain);
 

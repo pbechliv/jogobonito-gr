@@ -43,7 +43,7 @@ export const TagsBar = ({ tags, className }: TagsBarProps) => {
 
   const { mainTags, secondaryTags } = useMemo(() => {
     const tagOrder = new Map<string, number>(
-      MAIN_TAG_NAMES_SORTED.map((name, index) => [name, index]),
+      MAIN_TAG_NAMES_SORTED.map((name, index) => [name, index])
     );
 
     const mainTags = tags
@@ -51,7 +51,7 @@ export const TagsBar = ({ tags, className }: TagsBarProps) => {
       .sort(
         (a, b) =>
           (tagOrder.get(a.name) ?? Number.POSITIVE_INFINITY) -
-          (tagOrder.get(b.name) ?? Number.POSITIVE_INFINITY),
+          (tagOrder.get(b.name) ?? Number.POSITIVE_INFINITY)
       );
 
     const secondaryTags = tags
@@ -90,7 +90,7 @@ export const TagsBar = ({ tags, className }: TagsBarProps) => {
                 aria-expanded={isSecondaryOpen}
                 aria-controls="secondary-tags"
               >
-                Άλλες
+                Περισσότερα
                 <ChevronDownIcon
                   className={`h-5 w-5 transition-transform ${
                     isSecondaryOpen ? "rotate-180" : ""
