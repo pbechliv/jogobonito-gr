@@ -16,26 +16,23 @@ interface NavProps {
 
 export const Nav = ({ tags }: NavProps) => {
   return (
-    <div className="w-full p-4">
-      <nav className="flex flex-col items-center gap-4">
+    <div className="w-full p-4 pb-0">
+      <nav className="flex flex-col items-center gap-2 md:gap-4">
         <div className="w-full flex justify-center items-center">
-          <div className="max-lg:w-8 lg:w-32"></div>
-          <div className="flex flex-1 justify-center">
-            <Link href="/">
-              <div
-                className={`px-2 py-2 max-lg:text-4xl lg:text-6xl ${rubik.className} hover:scale-105 bg-secondary rounded-lg`}
-              >
-                Jogo Bonito
-              </div>
-            </Link>
-          </div>
-          <div className="flex items-center gap-2">
+          <div className="flex-1" />
+          <Link href="/">
+            <div
+              className={`px-2 py-2 max-lg:text-4xl lg:text-6xl ${rubik.className} hover:scale-105 bg-secondary rounded-lg`}
+            >
+              Jogo Bonito
+            </div>
+          </Link>
+          <div className="flex-1 flex justify-end">
             <ThemeToggle />
-            <NavDialog tags={tags} className="md:hidden" />
           </div>
-          <div className="hidden md:block w-32" />
         </div>
 
+        <NavDialog tags={tags} className="md:hidden" />
         <TagsBar tags={tags} className="hidden md:block w-full max-w-4xl" />
       </nav>
     </div>

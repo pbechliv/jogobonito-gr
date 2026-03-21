@@ -2,7 +2,7 @@
 
 import { Tag } from "@jogo/definitions";
 import { sortAndPartitionTags } from "@jogo/lib/sort-tags";
-import { Menu } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { Button } from "./ui/button";
 import {
   Sheet,
@@ -29,10 +29,10 @@ export const NavDialog = ({ tags, className }: NavDialogProps) => {
         <SheetTrigger asChild>
           <Button
             variant="secondary"
-            className="cursor-pointer hover:bg-primary"
+            className="cursor-pointer hover:bg-primary text-lg"
           >
-            <span className="text-lg max-md:hidden">Κατηγορίες</span>
-            <Menu className="h-8 w-8 md:hidden" />
+            Κατηγορίες
+            <ChevronRight className="h-5 w-5" />
           </Button>
         </SheetTrigger>
 
