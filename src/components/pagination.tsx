@@ -4,7 +4,6 @@ import { PageParamEnum } from "@jogo/lib/page-param.enum";
 import { PAGE_SIZE } from "@jogo/lib/page-size";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { Fragment } from "react";
 import { PageButton } from "./page-button";
 
 interface PaginationProps {
@@ -16,21 +15,23 @@ export const Pagination = (props: PaginationProps) => {
   const { slug, page } = useParams();
   if (Array.isArray(page)) throw new Error("page should not be an array");
 
-  if (!page) return <Fragment></Fragment>;
-
-  const pages = getVisibleItems(props.totalPosts, Number(page) || 1);
+  const currentPage = page ?? "1";
+  const pages = getVisibleItems(props.totalPosts, Number(currentPage) || 1);
 
   return (
-    <div className="flex gap-2 w-100 justify-center">
+    <div className="flex gap-2 w-full justify-center">
       {pages.map((pageItem, index) => {
+        if (pageItem === null) {
+          return (
+            <span key={`ellipsis-${index}`}>
+              <PageButton pageIndex={null} currentPage={currentPage} />
+            </span>
+          );
+        }
         const uri = `/${props.pageParam}${slug ? `/${slug}` : ""}/${pageItem}`;
         return (
-          <Link
-            className={!pageItem ? "pointer-events-none" : ""}
-            key={pageItem ?? `${index}-null`}
-            href={uri}
-          >
-            <PageButton pageIndex={pageItem} currentPage={page} />
+          <Link key={pageItem} href={uri}>
+            <PageButton pageIndex={pageItem} currentPage={currentPage} />
           </Link>
         );
       })}
@@ -38,53 +39,33 @@ export const Pagination = (props: PaginationProps) => {
   );
 };
 
-const getVisibleItems = (totalItems: number, currentPage: number) => {
-  const maxVisiblePages = 5; // always show 5 pages
+const getVisibleItems = (
+  totalItems: number,
+  currentPage: number
+): (number | null)[] => {
   const totalPages = Math.ceil(totalItems / PAGE_SIZE);
+  if (totalPages <= 1) return [1];
 
-  // show at least 5 pages, centered on the current page
-  let firstVisiblePage = Math.max(
-    1,
-    currentPage - Math.floor(maxVisiblePages / 2)
-  );
-  let lastVisiblePage = Math.min(
-    totalPages,
-    firstVisiblePage + maxVisiblePages - 1
-  );
-  firstVisiblePage = Math.max(1, lastVisiblePage - maxVisiblePages + 1);
+  const windowSize = 5;
+  let windowStart = Math.max(1, currentPage - Math.floor(windowSize / 2));
+  const windowEnd = Math.min(totalPages, windowStart + windowSize - 1);
+  windowStart = Math.max(1, windowEnd - windowSize + 1);
 
-  const visibleItems = [];
+  const items: (number | null)[] = [];
 
-  // always show first page
-  if (currentPage !== 1) visibleItems.push(1);
-
-  // show previous pages, unless already shown
-  if (firstVisiblePage > 2) {
-    visibleItems.push(null); // show truncated items
-    visibleItems.push(currentPage - 2);
-    visibleItems.push(currentPage - 1);
-  } else {
-    for (let i = 2; i < currentPage; i++) {
-      visibleItems.push(i);
-    }
+  if (windowStart > 1) {
+    items.push(1);
+    if (windowStart > 2) items.push(null);
   }
 
-  // show current page
-  visibleItems.push(currentPage);
-
-  // show next pages, unless already shown
-  if (lastVisiblePage < totalPages - 1) {
-    visibleItems.push(currentPage + 1);
-    visibleItems.push(currentPage + 2);
-    visibleItems.push(null); // show truncated items
-  } else {
-    for (let i = currentPage + 1; i < totalPages; i++) {
-      visibleItems.push(i);
-    }
+  for (let i = windowStart; i <= windowEnd; i++) {
+    items.push(i);
   }
 
-  // always show last page
-  if (currentPage !== totalPages) visibleItems.push(totalPages);
+  if (windowEnd < totalPages) {
+    if (windowEnd < totalPages - 1) items.push(null);
+    items.push(totalPages);
+  }
 
-  return visibleItems;
+  return items;
 };

@@ -11,19 +11,19 @@ import {
   TagFields,
   TagWithPosts,
 } from "@jogo/definitions";
-import { PAGE_SIZE } from "./page-size";
 
 export async function getManyPosts(page: number = 0, limit: number = 10) {
   const skip = page * limit;
   const entries: GetManyPostsResponse = await fetchGraphQL(
-    `query {
-      postCollection(order: publishedDate_DESC, skip: ${skip}, limit: ${limit}) {
+    `query GetManyPosts($skip: Int!, $limit: Int!) {
+      postCollection(order: publishedDate_DESC, skip: $skip, limit: $limit) {
         total
         items {
           ${PostFields}
         }
       }
-    }`
+    }`,
+    { skip, limit }
   );
 
   return entries.data.postCollection;
@@ -78,12 +78,12 @@ export async function getOneTag(
 ): Promise<TagWithPosts | undefined> {
   const skip = page * limit;
   const entries: GetOneTagResponse = await fetchGraphQL(
-    `query {
-      tagCollection(where: { slug: "${slug}" }, limit: 1) {
+    `query GetOneTag($slug: String!, $skip: Int!, $limit: Int!) {
+      tagCollection(where: { slug: $slug }, limit: 1) {
         items {
           ${TagFields}
           linkedFrom {
-            posts: postCollection {
+            posts: postCollection(skip: $skip, limit: $limit, order: publishedDate_DESC) {
               total
               items {
                 ${PostFields}
@@ -92,18 +92,10 @@ export async function getOneTag(
           }
         }
       }
-    }`
+    }`,
+    { slug, skip, limit }
   );
 
-  const posts = [...entries.data.tagCollection.items[0].linkedFrom.posts.items];
-  posts.sort(
-    (a, b) =>
-      new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime()
-  );
-  posts.splice(0, skip);
-  posts.splice(PAGE_SIZE);
-
-  entries.data.tagCollection.items[0].linkedFrom.posts.items = posts;
   return entries.data.tagCollection.items[0];
 }
 
@@ -111,18 +103,23 @@ export async function getOnePost(
   slug: string
 ): Promise<PostWithContent | undefined> {
   const entries: GetOnePostResponse = await fetchGraphQL(
-    `query {
-      postCollection(where: { slug: "${slug}" }, limit: 1) {
+    `query GetOnePost($slug: String!) {
+      postCollection(where: { slug: $slug }, limit: 1) {
         items {
           ${PostWithContentFields}
         }
       }
-    }`
+    }`,
+    { slug }
   );
   return entries.data.postCollection.items[0];
 }
 
-async function fetchGraphQL(query: string, preview = false) {
+async function fetchGraphQL(
+  query: string,
+  variables?: Record<string, unknown>,
+  preview = false
+) {
   return fetch(
     `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}`,
     {
@@ -135,7 +132,7 @@ async function fetchGraphQL(query: string, preview = false) {
             : process.env.CONTENTFUL_ACCESS_TOKEN
         }`,
       },
-      body: JSON.stringify({ query }),
+      body: JSON.stringify({ query, variables }),
       next: { revalidate: 60 },
     }
   ).then((response) => response.json());

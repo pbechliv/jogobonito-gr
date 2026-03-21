@@ -7,7 +7,7 @@ export const dynamicParams = true;
 export async function generateMetadata(props: PageProps) {
   const params = await props.params;
   return generateHeaderMetadata({
-    url: `tag/${params.page}`,
+    url: `page/${params.page}`,
   });
 }
 

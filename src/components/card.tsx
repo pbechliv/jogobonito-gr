@@ -5,19 +5,20 @@ import Link from "next/link";
 
 interface CardProps {
   post: Post;
+  index: number;
 }
 
-export const Card = ({ post }: CardProps) => {
+export const Card = ({ post, index }: CardProps) => {
   return (
     <div className="p-4 max-w-4xl ">
       <Link href={`/post/${post.slug}`}>
         <Image
           className="transition-all object-cover aspect-video rounded-md hover:scale-105"
           src={post.mainImage.url}
-          priority
+          priority={index === 0}
           width={864}
           height={486}
-          alt=""
+          alt={post.title}
         />
       </Link>
       <div className="flex justify-between mt-3">

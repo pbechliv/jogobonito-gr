@@ -2,7 +2,7 @@
 
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Tag } from "@jogo/definitions";
-import { MAIN_TAG_NAMES_SORTED } from "@jogo/lib/main-tag-names-sorted";
+import { sortAndPartitionTags } from "@jogo/lib/sort-tags";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -41,25 +41,10 @@ export const TagsBar = ({ tags, className }: TagsBarProps) => {
     };
   }, []);
 
-  const { mainTags, secondaryTags } = useMemo(() => {
-    const tagOrder = new Map<string, number>(
-      MAIN_TAG_NAMES_SORTED.map((name, index) => [name, index])
-    );
-
-    const mainTags = tags
-      .filter((tag) => tag.isMain)
-      .sort(
-        (a, b) =>
-          (tagOrder.get(a.name) ?? Number.POSITIVE_INFINITY) -
-          (tagOrder.get(b.name) ?? Number.POSITIVE_INFINITY)
-      );
-
-    const secondaryTags = tags
-      .filter((tag) => !tag.isMain)
-      .sort((a, b) => a.name.localeCompare(b.name, "el"));
-
-    return { mainTags, secondaryTags };
-  }, [tags]);
+  const { mainTags, secondaryTags } = useMemo(
+    () => sortAndPartitionTags(tags),
+    [tags]
+  );
 
   if (mainTags.length === 0 && secondaryTags.length === 0) return null;
 

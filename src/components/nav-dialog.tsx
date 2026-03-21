@@ -15,7 +15,7 @@ import {
 } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Tag } from "@jogo/definitions";
-import { MAIN_TAG_NAMES_SORTED } from "@jogo/lib/main-tag-names-sorted";
+import { sortAndPartitionTags } from "@jogo/lib/sort-tags";
 import { Fragment, useState } from "react";
 import { Categories } from "./categories";
 
@@ -28,14 +28,7 @@ export const NavDialog = ({ tags, className }: NavDialogProps) => {
   let [isOpen, setIsOpen] = useState(false);
 
   const tabs = ["Βασικές", "Περισσότερα"];
-  const mainTags = tags
-    .filter((tag) => tag.isMain)
-    .sort(
-      (a, b) =>
-        MAIN_TAG_NAMES_SORTED.indexOf(a.name) -
-        MAIN_TAG_NAMES_SORTED.indexOf(b.name)
-    );
-  const secondaryTags = tags.filter((tag) => !tag.isMain);
+  const { mainTags, secondaryTags } = sortAndPartitionTags(tags);
 
   function closeModal() {
     setIsOpen(false);
@@ -74,11 +67,11 @@ export const NavDialog = ({ tags, className }: NavDialogProps) => {
             <TransitionChild
               as={Fragment}
               enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
+              enterFrom="translate-x-full"
+              enterTo="translate-x-0"
               leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
+              leaveFrom="translate-x-0"
+              leaveTo="translate-x-full"
             >
               <DialogPanel className="bg-white h-full w-72 p-6 flex flex-col overflow-y-scroll">
                 <div className="flex justify-between items-center">

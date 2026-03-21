@@ -8,8 +8,8 @@ interface PostsProps {
 export const Posts = ({ posts }: PostsProps) => {
   return (
     <div className="w-full">
-      {posts.map((post) => {
-        return <Card post={post} key={post.slug} />;
+      {posts.map((post, index) => {
+        return <Card post={post} index={index} key={post.slug} />;
       })}
     </div>
   );

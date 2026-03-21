@@ -10,7 +10,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="el">
       <body className={inter.className}>{children}</body>
       {process.env.NODE_ENV === "production" && <GoogleAnalytics />}
     </html>

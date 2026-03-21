@@ -56,7 +56,7 @@ const customMarkdownOptions = (content: PostContent) => ({
     ),
     [INLINES.HYPERLINK]: (node: Inline | Block, children: React.ReactNode) => {
       return (
-        <a href={node.data.uri} target={"_blank"}>
+        <a href={node.data.uri} target={"_blank"} rel="noopener noreferrer">
           {children}
         </a>
       );
@@ -72,7 +72,7 @@ const customMarkdownOptions = (content: PostContent) => ({
       if (isVideo(node)) {
         node = node.replace("<iframe", '<iframe class="video-iframe"');
         wrapperClassName = "video-container";
-      } else if (isFacebookPost("https://www.facebook.com/plugins/post")) {
+      } else if (isFacebookPost(node)) {
         node = node.replace("<iframe", '<iframe class="facebook-post-iframe"');
       }
       return (
@@ -107,7 +107,7 @@ export const PostPage = ({ post, tags }: PostPageProps) => {
             src="/nectarios.jpeg"
             width={36}
             height={36}
-            alt=""
+            alt="Νεκτάριος Δαργάκης"
           />
         </div>
         <Image
@@ -116,8 +116,8 @@ export const PostPage = ({ post, tags }: PostPageProps) => {
           src={post.mainImage.url}
           width={864}
           height={486}
-          alt=""
-        ></Image>
+          alt={post.title}
+        />
         <div className="prose prose-slate max-w-full mb-6">
           <p className="text-xl font-medium text-gray-700">{post.lead}</p>
         </div>
