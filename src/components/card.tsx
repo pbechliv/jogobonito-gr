@@ -8,54 +8,54 @@ interface CardProps {
   index: number;
 }
 
-export const Card = ({ post, index }: CardProps) => {
+export const Card = (props: CardProps) => {
   return (
     <div className="p-4 max-w-4xl ">
-      <Link href={`/post/${post.slug}`}>
+      <Link href={`/post/${props.post.slug}`}>
         <Image
           className="transition-all object-cover aspect-video rounded-md hover:scale-105"
-          src={post.mainImage.url}
-          priority={index === 0}
+          src={props.post.mainImage.url}
+          priority={props.index === 0}
           width={864}
           height={486}
-          alt={post.title}
+          alt={props.post.title}
         />
       </Link>
       <div className="flex justify-between mt-3">
         <div className="flex gap-1 flex-wrap">
-          {post.tags.items.map((tag) => (
+          {props.post.tags.items.map((tag) => (
             <Link
               href={`/tag/${tag.slug}/1`}
               className="text-foreground text-xs border-2 border-primary rounded-xl p-1 hover:scale-105 hover:bg-secondary"
-              key={`${post.slug}__${tag.name}`}
+              key={`${props.post.slug}__${tag.name}`}
             >
               {tag.name}
             </Link>
           ))}
         </div>
         <div className="text-xs text-muted-foreground">
-          {<span>{format(new Date(post.publishedDate), "dd/MM/yyyy")}</span>}
+          {<span>{format(new Date(props.post.publishedDate), "dd/MM/yyyy")}</span>}
         </div>
       </div>
 
-      <Link href={`/post/${post.slug}`} className="group">
+      <Link href={`/post/${props.post.slug}`} className="group">
         <h2 className="text-lg font-semibold leading-snug tracking-tight mt-2">
           <span
             className="
                 bg-linear-to-r
               from-primary
-              to-secondary 
-                bg-[length:0px_10px] 
-                bg-left-bottom 
-                bg-no-repeat 
+              to-secondary
+                bg-[length:0px_10px]
+                bg-left-bottom
+                bg-no-repeat
                 duration-500
                 group-hover:bg-[length:100%_10px]
                 "
           >
-            {post.title}
+            {props.post.title}
           </span>
         </h2>
-        <span className="text-sm text-muted-foreground">{post.lead}</span>
+        <span className="text-sm text-muted-foreground">{props.post.lead}</span>
       </Link>
     </div>
   );

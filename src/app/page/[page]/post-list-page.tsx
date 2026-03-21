@@ -10,15 +10,11 @@ interface PostListPageProps {
   tags: Tag[];
 }
 
-export const PostListPage = ({
-  posts,
-  totalPosts,
-  tags,
-}: PostListPageProps) => {
+export const PostListPage = (props: PostListPageProps) => {
   return (
-    <Layout tags={tags}>
-      <Posts posts={posts} />
-      <Pagination totalPosts={totalPosts} pageParam={PageParamEnum.PAGE} />
+    <Layout tags={props.tags}>
+      <Posts posts={props.posts} />
+      <Pagination totalPosts={props.totalPosts} pageParam={PageParamEnum.PAGE} />
     </Layout>
   );
 };

@@ -5,11 +5,11 @@ interface CategoriesProps {
   tags: Tag[];
 }
 
-export const Categories = ({ tags }: CategoriesProps) => {
+export const Categories = (props: CategoriesProps) => {
   return (
     <div className="text-center">
       <ul>
-        {tags.map((tag) => (
+        {props.tags.map((tag) => (
           <li key={tag.slug} className="p-2 border-b-2 border-primary">
             <Link href={`/tag/${tag.slug}/1`}>{tag.name}</Link>
           </li>

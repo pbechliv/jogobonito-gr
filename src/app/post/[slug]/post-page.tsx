@@ -90,15 +90,15 @@ interface PostPageProps {
   tags: Tag[];
 }
 
-export const PostPage = ({ post, tags }: PostPageProps) => {
+export const PostPage = (props: PostPageProps) => {
   return (
-    <Layout tags={tags}>
+    <Layout tags={props.tags}>
       <div className="px-4">
         <div className="prose dark:prose-invert max-w-full mb-3 text-center">
-          <h1>{post.title}</h1>
+          <h1>{props.post.title}</h1>
         </div>
         <div className="flex gap-3 justify-center items-center mb-3">
-          <span>{format(new Date(post.publishedDate), "dd/MM/yyyy")}</span>
+          <span>{format(new Date(props.post.publishedDate), "dd/MM/yyyy")}</span>
           <span> | </span>
           <span>Νεκτάριος Δαργάκης</span>
           <Image
@@ -113,19 +113,19 @@ export const PostPage = ({ post, tags }: PostPageProps) => {
         <Image
           priority
           className="object-cover aspect-video rounded-md mb-3"
-          src={post.mainImage.url}
+          src={props.post.mainImage.url}
           width={864}
           height={486}
-          alt={post.title}
+          alt={props.post.title}
         />
         <div className="prose prose-slate dark:prose-invert max-w-full mb-6">
-          <p className="text-xl font-medium text-muted-foreground">{post.lead}</p>
+          <p className="text-xl font-medium text-muted-foreground">{props.post.lead}</p>
         </div>
         <hr className="w-1/3 mx-auto mb-8 border-border" />
         <div className="prose prose-slate dark:prose-invert max-w-full">
           {documentToReactComponents(
-            post.content.json,
-            customMarkdownOptions(post.content)
+            props.post.content.json,
+            customMarkdownOptions(props.post.content)
           )}
         </div>
       </div>

@@ -2,9 +2,9 @@ interface SocialLinksProps {
   className?: string;
 }
 
-export const SocialLinks = ({ className }: SocialLinksProps) => {
+export const SocialLinks = (props: SocialLinksProps) => {
   return (
-    <div className={className}>
+    <div className={props.className}>
       <a
         href="https://www.facebook.com/JogoBonitoGreece"
         target="_blank"

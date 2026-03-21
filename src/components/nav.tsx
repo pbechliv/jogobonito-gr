@@ -14,7 +14,7 @@ interface NavProps {
   tags: Tag[];
 }
 
-export const Nav = ({ tags }: NavProps) => {
+export const Nav = (props: NavProps) => {
   return (
     <div className="w-full p-4 pb-0">
       <nav className="flex flex-col items-center gap-2 md:gap-4">
@@ -32,8 +32,8 @@ export const Nav = ({ tags }: NavProps) => {
           </div>
         </div>
 
-        <NavDialog tags={tags} className="md:hidden" />
-        <TagsBar tags={tags} className="hidden md:block w-full max-w-4xl" />
+        <NavDialog tags={props.tags} className="md:hidden" />
+        <TagsBar tags={props.tags} className="hidden md:block w-full max-w-4xl" />
       </nav>
     </div>
   );

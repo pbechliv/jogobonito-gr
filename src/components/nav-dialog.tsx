@@ -20,12 +20,12 @@ interface NavDialogProps {
   className?: string;
 }
 
-export const NavDialog = ({ tags, className }: NavDialogProps) => {
+export const NavDialog = (props: NavDialogProps) => {
   const tabNames = ["Βασικές", "Περισσότερα"];
-  const { mainTags, secondaryTags } = sortAndPartitionTags(tags);
+  const { mainTags, secondaryTags } = sortAndPartitionTags(props.tags);
 
   return (
-    <div className={className}>
+    <div className={props.className}>
       <Sheet>
         <SheetTrigger asChild>
           <Button

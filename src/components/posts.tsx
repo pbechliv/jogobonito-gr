@@ -5,10 +5,10 @@ interface PostsProps {
   posts: Post[];
 }
 
-export const Posts = ({ posts }: PostsProps) => {
+export const Posts = (props: PostsProps) => {
   return (
     <div className="w-full">
-      {posts.map((post, index) => {
+      {props.posts.map((post, index) => {
         return <Card post={post} index={index} key={post.slug} />;
       })}
     </div>

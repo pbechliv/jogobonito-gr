@@ -9,15 +9,15 @@ interface TagListPageProps {
   tags: Tag[];
 }
 
-export const TagPostListPage = ({ tag, tags }: TagListPageProps) => {
+export const TagPostListPage = (props: TagListPageProps) => {
   return (
-    <Layout tags={tags}>
+    <Layout tags={props.tags}>
       <h1 className="text-2xl font-semibold text-center p-4 underline decoration-primary">
-        {tag.name}
+        {props.tag.name}
       </h1>
-      <Posts posts={tag.linkedFrom.posts.items} />
+      <Posts posts={props.tag.linkedFrom.posts.items} />
       <Pagination
-        totalPosts={tag.linkedFrom.posts.total}
+        totalPosts={props.tag.linkedFrom.posts.total}
         pageParam={PageParamEnum.TAG}
       />
     </Layout>

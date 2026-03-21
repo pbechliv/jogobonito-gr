@@ -7,10 +7,10 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
-export const Layout = ({ children, tags }: LayoutProps) => (
+export const Layout = (props: LayoutProps) => (
   <div className="min-h-screen flex flex-col">
-    <Nav tags={tags} />
-    <main className={`pb-10 m-auto max-w-4xl flex-1`}>{children}</main>
+    <Nav tags={props.tags} />
+    <main className={`pb-10 m-auto max-w-4xl flex-1`}>{props.children}</main>
     <Footer />
   </div>
 );

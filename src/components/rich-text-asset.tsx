@@ -6,8 +6,8 @@ interface RichTextAssetProps {
   assets: EmbeddedAsset[];
 }
 
-export const RichTextAsset = ({ id, assets }: RichTextAssetProps) => {
-  const asset = assets.find((asset) => asset.sys.id === id);
+export const RichTextAsset = (props: RichTextAssetProps) => {
+  const asset = props.assets.find((asset) => asset.sys.id === props.id);
   if (asset?.url) {
     return (
       <p className="max-w-full max-h-full">

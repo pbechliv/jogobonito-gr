@@ -16,7 +16,7 @@ interface TagsBarProps {
   className?: string;
 }
 
-export const TagsBar = ({ tags, className }: TagsBarProps) => {
+export const TagsBar = (props: TagsBarProps) => {
   const [isSecondaryOpen, setIsSecondaryOpen] = useState(false);
   const closeTimerRef = useRef<number | null>(null);
 
@@ -47,14 +47,14 @@ export const TagsBar = ({ tags, className }: TagsBarProps) => {
   }, []);
 
   const { mainTags, secondaryTags } = useMemo(
-    () => sortAndPartitionTags(tags),
-    [tags]
+    () => sortAndPartitionTags(props.tags),
+    [props.tags]
   );
 
   if (mainTags.length === 0 && secondaryTags.length === 0) return null;
 
   return (
-    <div className={className}>
+    <div className={props.className}>
       <div className="bg-secondary rounded-lg px-4 py-3">
         <div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-2 text-lg">
           {mainTags.map((tag) => (
