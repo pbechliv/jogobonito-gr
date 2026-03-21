@@ -13,6 +13,7 @@ import {
 } from "./ui/sheet";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Categories } from "./categories";
+import { SocialLinks } from "./social-links";
 
 interface NavDialogProps {
   tags: Tag[];
@@ -63,6 +64,10 @@ export const NavDialog = ({ tags, className }: NavDialogProps) => {
               <Categories tags={secondaryTags} />
             </TabsContent>
           </Tabs>
+
+          <div className="mt-auto pt-4 border-t border-border">
+            <SocialLinks className="flex gap-6 justify-center" />
+          </div>
         </SheetContent>
       </Sheet>
     </div>
