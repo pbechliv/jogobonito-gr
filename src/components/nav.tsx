@@ -3,6 +3,7 @@ import { Rubik_Vinyl } from "next/font/google";
 import Link from "next/link";
 import { NavDialog } from "./nav-dialog";
 import { TagsBar } from "./tags-bar";
+import { ThemeToggle } from "./theme-toggle";
 
 const rubik = Rubik_Vinyl({
   weight: "400",
@@ -22,13 +23,16 @@ export const Nav = ({ tags }: NavProps) => {
           <div className="flex flex-1 justify-center">
             <Link href="/">
               <div
-                className={`px-2 py-2 max-lg:text-4xl lg:text-6xl text-black-300 ${rubik.className} hover:scale-105 bg-yellow-100 rounded-lg`}
+                className={`px-2 py-2 max-lg:text-4xl lg:text-6xl ${rubik.className} hover:scale-105 bg-secondary rounded-lg`}
               >
                 Jogo Bonito
               </div>
             </Link>
           </div>
-          <NavDialog tags={tags} className="md:hidden" />
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <NavDialog tags={tags} className="md:hidden" />
+          </div>
           <div className="hidden md:block w-32" />
         </div>
 

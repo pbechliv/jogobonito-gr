@@ -12,7 +12,7 @@ interface TagListPageProps {
 export const TagPostListPage = ({ tag, tags }: TagListPageProps) => {
   return (
     <Layout tags={tags}>
-      <h1 className="text-2xl font-semibold text-center p-4 underline decoration-yellow-200">
+      <h1 className="text-2xl font-semibold text-center p-4 underline decoration-primary">
         {tag.name}
       </h1>
       <Posts posts={tag.linkedFrom.posts.items} />

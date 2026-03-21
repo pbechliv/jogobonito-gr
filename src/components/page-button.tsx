@@ -11,13 +11,13 @@ export const PageButton = ({ pageIndex, currentPage }: PageButtonProps) => {
       className={`
         h-10 w-10
         text-center
-      text-slate-700 
+      text-muted-foreground
         border-2
         rounded-full
         p-1
         leading-7
-        hover:bg-yellow-100
-        ${isActive ? `bg-yellow-200 border-slate-700` : `border-yellow-200`}
+        hover:bg-secondary
+        ${isActive ? `bg-primary border-foreground` : `border-primary`}
         ${!pageIndex ? `pointer-events-none` : ``}
       `}
     >

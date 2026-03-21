@@ -94,7 +94,7 @@ export const PostPage = ({ post, tags }: PostPageProps) => {
   return (
     <Layout tags={tags}>
       <div className="px-4">
-        <div className="prose max-w-full mb-3 text-center">
+        <div className="prose dark:prose-invert max-w-full mb-3 text-center">
           <h1>{post.title}</h1>
         </div>
         <div className="flex gap-3 justify-center items-center mb-3">
@@ -118,11 +118,11 @@ export const PostPage = ({ post, tags }: PostPageProps) => {
           height={486}
           alt={post.title}
         />
-        <div className="prose prose-slate max-w-full mb-6">
-          <p className="text-xl font-medium text-gray-700">{post.lead}</p>
+        <div className="prose prose-slate dark:prose-invert max-w-full mb-6">
+          <p className="text-xl font-medium text-muted-foreground">{post.lead}</p>
         </div>
-        <hr className="w-1/3 mx-auto mb-8 border-gray-200" />
-        <div className="prose prose-slate max-w-full">
+        <hr className="w-1/3 mx-auto mb-8 border-border" />
+        <div className="prose prose-slate dark:prose-invert max-w-full">
           {documentToReactComponents(
             post.content.json,
             customMarkdownOptions(post.content)

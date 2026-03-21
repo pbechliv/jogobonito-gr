@@ -1,10 +1,15 @@
 "use client";
 
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Tag } from "@jogo/definitions";
 import { sortAndPartitionTags } from "@jogo/lib/sort-tags";
+import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "./ui/popover";
 
 interface TagsBarProps {
   tags: Tag[];
@@ -50,61 +55,61 @@ export const TagsBar = ({ tags, className }: TagsBarProps) => {
 
   return (
     <div className={className}>
-      <div className="bg-yellow-100 rounded-lg px-4 py-3">
+      <div className="bg-secondary rounded-lg px-4 py-3">
         <div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-2 text-lg">
           {mainTags.map((tag) => (
             <Link
               key={tag.slug}
               href={`/tag/${tag.slug}/1`}
-              className="hover:underline decoration-yellow-300"
+              className="hover:underline decoration-ring"
             >
               {tag.name}
             </Link>
           ))}
 
           {secondaryTags.length > 0 && (
-            <div
-              className="relative"
-              onMouseEnter={openSecondary}
-              onMouseLeave={closeSecondarySoon}
-            >
-              <button
-                type="button"
-                onClick={() => setIsSecondaryOpen((v) => !v)}
-                className="inline-flex items-center gap-2 hover:underline decoration-yellow-300"
-                aria-expanded={isSecondaryOpen}
-                aria-controls="secondary-tags"
+            <Popover open={isSecondaryOpen} onOpenChange={setIsSecondaryOpen}>
+              <div
+                onMouseEnter={openSecondary}
+                onMouseLeave={closeSecondarySoon}
               >
-                Περισσότερα
-                <ChevronDownIcon
-                  className={`h-5 w-5 transition-transform ${
-                    isSecondaryOpen ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
+                <PopoverTrigger asChild>
+                  <button
+                    type="button"
+                    onClick={() => setIsSecondaryOpen((v) => !v)}
+                    className="inline-flex items-center gap-2 hover:underline decoration-ring cursor-pointer"
+                    aria-expanded={isSecondaryOpen}
+                  >
+                    Περισσότερα
+                    <ChevronDown
+                      className={`h-5 w-5 transition-transform ${
+                        isSecondaryOpen ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+                </PopoverTrigger>
+              </div>
 
-              {isSecondaryOpen && (
-                <div
-                  id="secondary-tags"
-                  className="absolute left-1/2 -translate-x-1/2 mt-3 w-[min(32rem,80vw)] max-h-96 overflow-auto rounded-xl bg-white shadow-xl ring-1 ring-black/10 p-2 z-50"
-                  onMouseEnter={openSecondary}
-                  onMouseLeave={closeSecondarySoon}
-                >
-                  <div className="grid grid-cols-2 gap-1 text-base">
-                    {secondaryTags.map((tag) => (
-                      <Link
-                        key={tag.slug}
-                        href={`/tag/${tag.slug}/1`}
-                        className="block rounded-lg px-3 py-2 hover:bg-yellow-50 hover:underline decoration-yellow-300"
-                        onClick={() => setIsSecondaryOpen(false)}
-                      >
-                        {tag.name}
-                      </Link>
-                    ))}
-                  </div>
+              <PopoverContent
+                className="w-[min(32rem,80vw)] max-h-96 overflow-auto p-2"
+                onMouseEnter={openSecondary}
+                onMouseLeave={closeSecondarySoon}
+                onOpenAutoFocus={(e) => e.preventDefault()}
+              >
+                <div className="grid grid-cols-2 gap-1 text-base">
+                  {secondaryTags.map((tag) => (
+                    <Link
+                      key={tag.slug}
+                      href={`/tag/${tag.slug}/1`}
+                      className="block rounded-lg px-3 py-2 hover:bg-accent hover:underline decoration-ring"
+                      onClick={() => setIsSecondaryOpen(false)}
+                    >
+                      {tag.name}
+                    </Link>
+                  ))}
                 </div>
-              )}
-            </div>
+              </PopoverContent>
+            </Popover>
           )}
         </div>
       </div>

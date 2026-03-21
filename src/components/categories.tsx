@@ -10,7 +10,7 @@ export const Categories = ({ tags }: CategoriesProps) => {
     <div className="text-center">
       <ul>
         {tags.map((tag) => (
-          <li key={tag.slug} className="p-2 border-b-2 border-yellow-200">
+          <li key={tag.slug} className="p-2 border-b-2 border-primary">
             <Link href={`/tag/${tag.slug}/1`}>{tag.name}</Link>
           </li>
         ))}

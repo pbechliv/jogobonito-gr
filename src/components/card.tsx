@@ -26,14 +26,14 @@ export const Card = ({ post, index }: CardProps) => {
           {post.tags.items.map((tag) => (
             <Link
               href={`/tag/${tag.slug}/1`}
-              className="text-slate-700 text-xs border-2 border-yellow-200 rounded-xl p-1 hover:scale-105 hover:bg-yellow-100"
+              className="text-foreground text-xs border-2 border-primary rounded-xl p-1 hover:scale-105 hover:bg-secondary"
               key={`${post.slug}__${tag.name}`}
             >
               {tag.name}
             </Link>
           ))}
         </div>
-        <div className="text-xs text-slate-500">
+        <div className="text-xs text-muted-foreground">
           {<span>{format(new Date(post.publishedDate), "dd/MM/yyyy")}</span>}
         </div>
       </div>
@@ -43,8 +43,8 @@ export const Card = ({ post, index }: CardProps) => {
           <span
             className="
                 bg-linear-to-r
-              from-yellow-200 
-              to-yellow-100 
+              from-primary
+              to-secondary 
                 bg-[length:0px_10px] 
                 bg-left-bottom 
                 bg-no-repeat 
@@ -55,7 +55,7 @@ export const Card = ({ post, index }: CardProps) => {
             {post.title}
           </span>
         </h2>
-        <span className="text-sm text-slate-700">{post.lead}</span>
+        <span className="text-sm text-muted-foreground">{post.lead}</span>
       </Link>
     </div>
   );
