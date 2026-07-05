@@ -23,3 +23,8 @@ export function sortAndPartitionTags(tags: Tag[]): {
 
   return { mainTags, secondaryTags };
 }
+
+export function sortTagsMainFirst(tags: Tag[]): Tag[] {
+  const { mainTags, secondaryTags } = sortAndPartitionTags(tags);
+  return [...mainTags, ...secondaryTags];
+}

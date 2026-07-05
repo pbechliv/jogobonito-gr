@@ -18,8 +18,10 @@ import {
   formatReadingTime,
   getReadingTimeMinutes,
 } from "@jogo/lib/reading-time";
+import { sortTagsMainFirst } from "@jogo/lib/sort-tags";
 import { format } from "date-fns";
 import Image from "next/image";
+import Link from "next/link";
 import { Fragment } from "react";
 
 function isTextNode(node: Text | Inline | Block): node is Text {
@@ -100,8 +102,7 @@ interface PostPageProps {
 }
 
 export const PostPage = (props: PostPageProps) => {
-  const tag =
-    props.post.tags.items.find((item) => item.isMain) ?? props.post.tags.items[0];
+  const postTags = sortTagsMainFirst(props.post.tags.items);
   const postUrl = `${BASE_URL}/post/${props.post.slug}`;
   const readingTime = formatReadingTime(
     getReadingTimeMinutes(props.post.content.json, props.post.lead)
@@ -111,7 +112,20 @@ export const PostPage = (props: PostPageProps) => {
     <Layout tags={props.tags}>
       <article className="flex flex-col gap-6">
         <header className="mx-auto flex w-full max-w-3xl flex-col gap-4">
-          {tag && <TagChip name={tag.name} className="self-start" />}
+          <div className="flex flex-wrap gap-2">
+            {postTags.map((tag, index) => (
+              <Link
+                key={tag.slug}
+                href={`/tag/${tag.slug}/1`}
+                className="transition-opacity hover:opacity-80"
+              >
+                <TagChip
+                  name={tag.name}
+                  variant={index === 0 ? "primary" : "muted"}
+                />
+              </Link>
+            ))}
+          </div>
           <h1 className="font-display text-3xl font-extrabold leading-tight tracking-tight md:text-5xl">
             {props.post.title}
           </h1>

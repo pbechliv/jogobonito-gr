@@ -1,4 +1,5 @@
 import { Post } from "@jogo/definitions";
+import { sortTagsMainFirst } from "@jogo/lib/sort-tags";
 import { format } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,8 +11,7 @@ interface CardProps {
 }
 
 export const Card = (props: CardProps) => {
-  const tag =
-    props.post.tags.items.find((item) => item.isMain) ?? props.post.tags.items[0];
+  const tags = sortTagsMainFirst(props.post.tags.items);
 
   return (
     <Link href={`/post/${props.post.slug}`} className="group block">
@@ -26,8 +26,14 @@ export const Card = (props: CardProps) => {
             alt={props.post.title}
           />
         </div>
-        <div className="flex items-center gap-2">
-          {tag && <TagChip name={tag.name} />}
+        <div className="flex flex-wrap items-center gap-2">
+          {tags.map((tag, index) => (
+            <TagChip
+              key={tag.slug}
+              name={tag.name}
+              variant={index === 0 ? "primary" : "muted"}
+            />
+          ))}
           <span className="text-xs text-muted-foreground">
             {format(new Date(props.post.publishedDate), "dd/MM/yyyy")}
           </span>

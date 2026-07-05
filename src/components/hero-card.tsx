@@ -1,4 +1,5 @@
 import { Post } from "@jogo/definitions";
+import { sortTagsMainFirst } from "@jogo/lib/sort-tags";
 import { format } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,8 +10,7 @@ interface HeroCardProps {
 }
 
 export const HeroCard = (props: HeroCardProps) => {
-  const tag =
-    props.post.tags.items.find((item) => item.isMain) ?? props.post.tags.items[0];
+  const tags = sortTagsMainFirst(props.post.tags.items);
 
   return (
     <Link href={`/post/${props.post.slug}`} className="group block">
@@ -25,7 +25,15 @@ export const HeroCard = (props: HeroCardProps) => {
         />
         <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 flex flex-col gap-2 p-4 md:gap-3 md:p-8">
-          {tag && <TagChip name={tag.name} className="self-start" />}
+          <div className="flex flex-wrap gap-2">
+            {tags.map((tag, index) => (
+              <TagChip
+                key={tag.slug}
+                name={tag.name}
+                variant={index === 0 ? "primary" : "overlay"}
+              />
+            ))}
+          </div>
           <h2 className="font-display text-2xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-3xl md:max-w-3xl md:text-4xl lg:text-5xl">
             {props.post.title}
           </h2>
