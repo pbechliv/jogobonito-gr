@@ -40,8 +40,9 @@ const point = (cx: number, cy: number, r: number, deg: number): [number, number]
   ];
 };
 
-// Telstar football: yellow disc, central pentagon, five seams to the rim,
-// and partial pentagon patches at the silhouette edge.
+// Telstar football: yellow disc, central pentagon, partial pentagon patches
+// at the silhouette edge, and Y-forked seams connecting vertices to patches
+// (the fork network is what makes it read as stitched panels, not a gear).
 const Ball = (props: {
   cx: number;
   cy: number;
@@ -51,6 +52,7 @@ const Ball = (props: {
   strokeWidth: number;
 }) => {
   const { cx, cy, r, pentagonR } = props;
+  const forkR = r * 0.62;
   const patchInnerR = r * 0.78;
 
   const patchPath = (vertexDeg: number) => {
@@ -61,6 +63,15 @@ const Ball = (props: {
     const [cx2, cy2] = point(cx, cy, patchInnerR, phi + 9);
     const [dx, dy] = point(cx, cy, r, phi + 17);
     return `M${ax} ${ay}L${bx} ${by}L${cx2} ${cy2}L${dx} ${dy}A${r} ${r} 0 0 1 ${ax} ${ay}Z`;
+  };
+
+  const seamPath = (vertexDeg: number) => {
+    // pentagon vertex -> fork point -> inner corners of both adjacent patches
+    const [vx, vy] = point(cx, cy, pentagonR, vertexDeg);
+    const [fx, fy] = point(cx, cy, forkR, vertexDeg);
+    const [ax, ay] = point(cx, cy, patchInnerR, vertexDeg + 27);
+    const [bx, by] = point(cx, cy, patchInnerR, vertexDeg - 27);
+    return `M${ax} ${ay}L${fx} ${fy}L${vx} ${vy}M${fx} ${fy}L${bx} ${by}`;
   };
 
   return (
@@ -82,21 +93,15 @@ const Ball = (props: {
       {PENTAGON_ANGLES.map((deg) => (
         <path key={`patch-${deg}`} d={patchPath(deg)} fill="currentColor" />
       ))}
-      {PENTAGON_ANGLES.map((deg) => {
-        const [x1, y1] = point(cx, cy, pentagonR, deg);
-        const [x2, y2] = point(cx, cy, r, deg);
-        return (
-          <line
-            key={`seam-${deg}`}
-            x1={x1}
-            y1={y1}
-            x2={x2}
-            y2={y2}
-            stroke="currentColor"
-            strokeWidth={props.seamWidth}
-          />
-        );
-      })}
+      {PENTAGON_ANGLES.map((deg) => (
+        <path
+          key={`seam-${deg}`}
+          d={seamPath(deg)}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={props.seamWidth}
+        />
+      ))}
     </>
   );
 };

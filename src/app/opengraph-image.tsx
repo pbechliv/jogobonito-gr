@@ -34,11 +34,11 @@ export default async function OpengraphImage() {
           <path fill="#0E2418" d="M11.91 29.39L14.29 26.79L17.71 26.79L20.09 29.39A14 14 0 0 1 11.91 29.39Z" />
           <path fill="#0E2418" d="M27.47 24.03L25.73 20.96L26.79 17.71L30 16.24A14 14 0 0 1 27.47 24.03Z" />
           <path fill="#0E2418" d="M27.18 7.57L23.72 8.28L20.96 6.27L20.56 2.76A14 14 0 0 1 27.18 7.57Z" />
-          <line stroke="#0E2418" strokeWidth="1.8" x1="16" y1="10.5" x2="16" y2="2" />
-          <line stroke="#0E2418" strokeWidth="1.8" x1="10.77" y1="14.3" x2="2.69" y2="11.67" />
-          <line stroke="#0E2418" strokeWidth="1.8" x1="12.77" y1="20.45" x2="7.77" y2="27.33" />
-          <line stroke="#0E2418" strokeWidth="1.8" x1="19.23" y1="20.45" x2="24.23" y2="27.33" />
-          <line stroke="#0E2418" strokeWidth="1.8" x1="21.23" y1="14.3" x2="29.31" y2="11.67" />
+          <path stroke="#0E2418" strokeWidth="1.8" fill="none" d="M11.04 6.27L16 7.32L16 10.5M16 7.32L20.96 6.27" />
+          <path stroke="#0E2418" strokeWidth="1.8" fill="none" d="M5.21 17.71L7.74 13.32L10.77 14.3M7.74 13.32L8.28 8.28" />
+          <path stroke="#0E2418" strokeWidth="1.8" fill="none" d="M14.29 26.79L10.9 23.02L12.77 20.45M10.9 23.02L6.27 20.96" />
+          <path stroke="#0E2418" strokeWidth="1.8" fill="none" d="M25.73 20.96L21.1 23.02L19.23 20.45M21.1 23.02L17.71 26.79" />
+          <path stroke="#0E2418" strokeWidth="1.8" fill="none" d="M23.72 8.28L24.26 13.32L21.23 14.3M24.26 13.32L26.79 17.71" />
         </svg>
         <div
           style={{
