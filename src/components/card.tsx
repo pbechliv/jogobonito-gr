@@ -2,61 +2,43 @@ import { Post } from "@jogo/definitions";
 import { format } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
+import { TagChip } from "./tag-chip";
 
 interface CardProps {
   post: Post;
-  index: number;
+  priority?: boolean;
 }
 
 export const Card = (props: CardProps) => {
-  return (
-    <div className="p-4 max-w-4xl ">
-      <Link href={`/post/${props.post.slug}`}>
-        <Image
-          className="transition-all object-cover aspect-video rounded-md hover:scale-105"
-          src={props.post.mainImage.url}
-          priority={props.index === 0}
-          width={864}
-          height={486}
-          alt={props.post.title}
-        />
-      </Link>
-      <div className="flex justify-between mt-3">
-        <div className="flex gap-1 flex-wrap">
-          {props.post.tags.items.map((tag) => (
-            <Link
-              href={`/tag/${tag.slug}/1`}
-              className="text-foreground text-xs border-2 border-primary rounded-xl p-1 hover:scale-105 hover:bg-secondary"
-              key={`${props.post.slug}__${tag.name}`}
-            >
-              {tag.name}
-            </Link>
-          ))}
-        </div>
-        <div className="text-xs text-muted-foreground">
-          {<span>{format(new Date(props.post.publishedDate), "dd/MM/yyyy")}</span>}
-        </div>
-      </div>
+  const tag =
+    props.post.tags.items.find((item) => item.isMain) ?? props.post.tags.items[0];
 
-      <Link href={`/post/${props.post.slug}`} className="group">
-        <h2 className="text-lg font-semibold leading-snug tracking-tight mt-2">
-          <span
-            className="
-                bg-linear-to-r
-              from-primary
-              to-secondary
-                bg-[length:0px_10px]
-                bg-left-bottom
-                bg-no-repeat
-                duration-500
-                group-hover:bg-[length:100%_10px]
-                "
-          >
-            {props.post.title}
+  return (
+    <Link href={`/post/${props.post.slug}`} className="group block">
+      <article className="flex flex-col gap-3">
+        <div className="relative aspect-video overflow-hidden rounded-lg">
+          <Image
+            fill
+            sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            src={props.post.mainImage.url}
+            priority={props.priority}
+            alt={props.post.title}
+          />
+        </div>
+        <div className="flex items-center gap-2">
+          {tag && <TagChip name={tag.name} />}
+          <span className="text-xs text-muted-foreground">
+            {format(new Date(props.post.publishedDate), "dd/MM/yyyy")}
           </span>
+        </div>
+        <h2 className="font-display text-lg font-bold leading-snug tracking-tight md:text-xl">
+          <span className="headline-underline">{props.post.title}</span>
         </h2>
-        <span className="text-sm text-muted-foreground">{props.post.lead}</span>
-      </Link>
-    </div>
+        <p className="text-sm text-muted-foreground line-clamp-2">
+          {props.post.lead}
+        </p>
+      </article>
+    </Link>
   );
 };

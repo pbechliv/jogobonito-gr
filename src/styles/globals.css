@@ -7,6 +7,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-roboto-condensed), var(--font-inter), sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -36,58 +38,52 @@
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --foreground: oklch(0.17 0.01 165);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: oklch(0.17 0.01 165);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  /* primary = yellow-200 (main accent) */
-  --primary: oklch(0.945 0.129 101.54);
-  --primary-foreground: oklch(0.205 0 0);
-  /* secondary = yellow-100 (softer accent, nav/footer bg) */
-  --secondary: oklch(0.973 0.071 103.193);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  /* muted-foreground = slate-500 */
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  /* accent = yellow-50 (hover highlight) */
-  --accent: oklch(0.987 0.026 102.212);
-  --accent-foreground: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.17 0.01 165);
+  /* primary = kit yellow (brand accent: chips, active states, underlines) */
+  --primary: oklch(0.86 0.171 95.5);
+  --primary-foreground: oklch(0.2 0.02 100);
+  /* secondary = deep green (second brand color: kickers, link hovers) */
+  --secondary: oklch(0.42 0.115 155);
+  --secondary-foreground: oklch(0.98 0.01 155);
+  --muted: oklch(0.965 0.004 155);
+  --muted-foreground: oklch(0.5 0.025 160);
+  /* accent = neutral hover surface */
+  --accent: oklch(0.96 0.006 155);
+  --accent-foreground: oklch(0.17 0.01 165);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.985 0 0);
-  /* border = yellow-200 */
-  --border: oklch(0.945 0.129 101.54);
-  --input: oklch(0.922 0 0);
-  /* ring = yellow-300 */
-  --ring: oklch(0.905 0.182 98.111);
+  --border: oklch(0.9 0.006 160);
+  --input: oklch(0.92 0.006 160);
+  /* ring = green in light mode (yellow is invisible on white) */
+  --ring: oklch(0.55 0.13 152);
 }
 
 .dark {
-  /* background = rgb(40, 44, 53) */
-  --background: oklch(0.293 0.017 266.4);
-  --foreground: oklch(0.93 0 0);
-  /* card/popover slightly lighter than bg for elevation */
-  --card: oklch(0.333 0.017 266.4);
-  --card-foreground: oklch(0.93 0 0);
-  --popover: oklch(0.333 0.017 266.4);
-  --popover-foreground: oklch(0.93 0 0);
-  /* primary stays yellow-200 for brand consistency */
-  --primary: oklch(0.945 0.129 101.54);
-  --primary-foreground: oklch(0.25 0 0);
-  /* secondary = subtle elevated surface */
-  --secondary: oklch(0.352 0.017 266.5);
-  --secondary-foreground: oklch(0.93 0 0);
-  --muted: oklch(0.352 0.017 266.5);
-  --muted-foreground: oklch(0.7 0.01 266);
-  /* accent = slightly warm tinted surface for hover */
-  --accent: oklch(0.37 0.02 102);
-  --accent-foreground: oklch(0.93 0 0);
+  /* "night match": very dark green-tinted surfaces, yellow reads like floodlights */
+  --background: oklch(0.165 0.018 170);
+  --foreground: oklch(0.93 0.006 160);
+  --card: oklch(0.205 0.02 168);
+  --card-foreground: oklch(0.93 0.006 160);
+  --popover: oklch(0.215 0.02 168);
+  --popover-foreground: oklch(0.93 0.006 160);
+  --primary: oklch(0.87 0.165 96);
+  --primary-foreground: oklch(0.2 0.03 100);
+  /* green lifted for dark surfaces */
+  --secondary: oklch(0.38 0.09 157);
+  --secondary-foreground: oklch(0.96 0.01 155);
+  --muted: oklch(0.24 0.02 168);
+  --muted-foreground: oklch(0.67 0.02 160);
+  --accent: oklch(0.27 0.03 165);
+  --accent-foreground: oklch(0.93 0.006 160);
   --destructive: oklch(0.704 0.191 22.216);
   --destructive-foreground: oklch(0.93 0 0);
-  /* border = subtle white overlay for contrast */
   --border: oklch(1 0 0 / 12%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.905 0.182 98.111);
+  --ring: oklch(0.86 0.16 97);
 }
 
 @layer base {
@@ -97,17 +93,24 @@
   body {
     @apply bg-background text-foreground;
   }
+  .prose :is(h1, h2, h3, h4) {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
 }
 
-body::before {
-  content: "";
-  display: block;
-  height: 200px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: -1;
+/* Signature brand hover: yellow→green underline growing from the left.
+   Pair with a `group` class on the enclosing link. */
+@utility headline-underline {
+  background-image: linear-gradient(to right, var(--primary), var(--secondary));
+  background-size: 0% 0.4em;
+  background-position: left bottom;
+  background-repeat: no-repeat;
+  transition: background-size 400ms;
+
+  .group:hover & {
+    background-size: 100% 0.4em;
+  }
 }
 
 .video-container {

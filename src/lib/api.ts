@@ -4,7 +4,9 @@ import {
   GetOnePostResponse,
   GetOneTagResponse,
   GetPostPathsResponse,
+  GetRelatedPostsResponse,
   GetTagPathsResponse,
+  Post,
   PostFields,
   PostWithContent,
   PostWithContentFields,
@@ -113,6 +115,33 @@ export async function getOnePost(
     { slug }
   );
   return entries.data.postCollection.items[0];
+}
+
+export async function getRelatedPosts(
+  tagSlug: string,
+  excludeSlug: string,
+  limit: number = 3
+): Promise<Post[]> {
+  const entries: GetRelatedPostsResponse = await fetchGraphQL(
+    `query GetRelatedPosts($tagSlug: String!, $limit: Int!) {
+      tagCollection(where: { slug: $tagSlug }, limit: 1) {
+        items {
+          linkedFrom {
+            posts: postCollection(order: publishedDate_DESC, limit: $limit) {
+              items {
+                ${PostFields}
+              }
+            }
+          }
+        }
+      }
+    }`,
+    // linkedFrom collections don't support "where" — overfetch and filter
+    { tagSlug, limit: limit + 1 }
+  );
+
+  const items = entries.data.tagCollection.items[0]?.linkedFrom.posts.items ?? [];
+  return items.filter((post) => post.slug !== excludeSlug).slice(0, limit);
 }
 
 async function fetchGraphQL(

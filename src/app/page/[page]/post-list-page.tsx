@@ -13,8 +13,13 @@ interface PostListPageProps {
 export const PostListPage = (props: PostListPageProps) => {
   return (
     <Layout tags={props.tags}>
-      <Posts posts={props.posts} />
-      <Pagination totalPosts={props.totalPosts} pageParam={PageParamEnum.PAGE} />
+      <div className="flex flex-col gap-10">
+        <Posts posts={props.posts} />
+        <Pagination
+          totalPosts={props.totalPosts}
+          pageParam={PageParamEnum.PAGE}
+        />
+      </div>
     </Layout>
   );
 };

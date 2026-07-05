@@ -35,7 +35,7 @@ export const ThemeToggle = () => {
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("system")}>
           <Monitor className="h-4 w-4" />
-          Σύστημα
+          Αυτόματο
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

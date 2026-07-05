@@ -1,4 +1,9 @@
-import { getManyTags, getOnePost, getPostPaths } from "@jogo/lib/api";
+import {
+  getManyTags,
+  getOnePost,
+  getPostPaths,
+  getRelatedPosts,
+} from "@jogo/lib/api";
 import { generateHeaderMetadata } from "@jogo/lib/generate-header-metadata";
 import { notFound } from "next/navigation";
 import { PostPage } from "./post-page";
@@ -26,9 +31,15 @@ export async function generateStaticParams() {
 
 async function getData(slug: string) {
   const post = await getOnePost(slug);
-  const { items: tags } = await getManyTags();
+  const relatedTag =
+    post?.tags.items.find((tag) => tag.isMain) ?? post?.tags.items[0];
 
-  return { post, tags };
+  const [{ items: tags }, relatedPosts] = await Promise.all([
+    getManyTags(),
+    relatedTag ? getRelatedPosts(relatedTag.slug, slug) : Promise.resolve([]),
+  ]);
+
+  return { post, tags, relatedPosts };
 }
 
 interface PageProps {
@@ -37,9 +48,9 @@ interface PageProps {
 }
 
 export default async function Page(props: PageProps) {
-  const { post, tags } = await getData((await props.params).slug);
+  const { post, tags, relatedPosts } = await getData((await props.params).slug);
   if (!post) {
     notFound();
   }
-  return <PostPage post={post} tags={tags} />;
+  return <PostPage post={post} tags={tags} relatedPosts={relatedPosts} />;
 }

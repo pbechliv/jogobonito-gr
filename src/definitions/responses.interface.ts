@@ -50,3 +50,17 @@ export interface GetOnePostResponse {
     };
   };
 }
+
+export interface GetRelatedPostsResponse {
+  data: {
+    tagCollection: {
+      items: {
+        linkedFrom: {
+          posts: {
+            items: Post[];
+          };
+        };
+      }[];
+    };
+  };
+}

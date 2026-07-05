@@ -8,8 +8,16 @@ import {
   Text,
 } from "@contentful/rich-text-types";
 import { Layout } from "@jogo/components/layout";
+import { RelatedPosts } from "@jogo/components/related-posts";
 import { RichTextAsset } from "@jogo/components/rich-text-asset";
-import { PostContent, PostWithContent, Tag } from "@jogo/definitions";
+import { ShareButtons } from "@jogo/components/share-buttons";
+import { TagChip } from "@jogo/components/tag-chip";
+import { Post, PostContent, PostWithContent, Tag } from "@jogo/definitions";
+import { BASE_URL } from "@jogo/lib/base-url";
+import {
+  formatReadingTime,
+  getReadingTimeMinutes,
+} from "@jogo/lib/reading-time";
 import { format } from "date-fns";
 import Image from "next/image";
 import { Fragment } from "react";
@@ -88,47 +96,81 @@ const customMarkdownOptions = (content: PostContent) => ({
 interface PostPageProps {
   post: PostWithContent;
   tags: Tag[];
+  relatedPosts: Post[];
 }
 
 export const PostPage = (props: PostPageProps) => {
+  const tag =
+    props.post.tags.items.find((item) => item.isMain) ?? props.post.tags.items[0];
+  const postUrl = `${BASE_URL}/post/${props.post.slug}`;
+  const readingTime = formatReadingTime(
+    getReadingTimeMinutes(props.post.content.json, props.post.lead)
+  );
+
   return (
     <Layout tags={props.tags}>
-      <div className="px-4">
-        <div className="prose dark:prose-invert max-w-full mb-3 text-center">
-          <h1>{props.post.title}</h1>
-        </div>
-        <div className="flex gap-3 justify-center items-center mb-3">
-          <span>{format(new Date(props.post.publishedDate), "dd/MM/yyyy")}</span>
-          <span> | </span>
-          <span>Νεκτάριος Δαργάκης</span>
+      <article className="flex flex-col gap-6">
+        <header className="mx-auto flex w-full max-w-3xl flex-col gap-4">
+          {tag && <TagChip name={tag.name} className="self-start" />}
+          <h1 className="font-display text-3xl font-extrabold leading-tight tracking-tight md:text-5xl">
+            {props.post.title}
+          </h1>
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-3 text-sm text-muted-foreground">
+            <Image
+              priority
+              className="rounded-full"
+              src="/nectarios.jpeg"
+              width={40}
+              height={40}
+              alt="Νεκτάριος Δαργάκης"
+            />
+            <span>Νεκτάριος Δαργάκης</span>
+            <span aria-hidden>·</span>
+            <span>
+              {format(new Date(props.post.publishedDate), "dd/MM/yyyy")}
+            </span>
+            <span aria-hidden>·</span>
+            <span>{readingTime}</span>
+            <ShareButtons
+              className="ml-auto"
+              url={postUrl}
+              title={props.post.title}
+            />
+          </div>
+        </header>
+
+        <div className="relative aspect-video overflow-hidden rounded-xl">
           <Image
+            fill
             priority
-            className="rounded-full"
-            src="/nectarios.jpeg"
-            width={36}
-            height={36}
-            alt="Νεκτάριος Δαργάκης"
+            sizes="(min-width: 1152px) 1120px, 100vw"
+            className="object-cover"
+            src={props.post.mainImage.url}
+            alt={props.post.title}
           />
         </div>
-        <Image
-          priority
-          className="object-cover aspect-video rounded-md mb-3"
-          src={props.post.mainImage.url}
-          width={864}
-          height={486}
-          alt={props.post.title}
-        />
-        <div className="prose prose-slate dark:prose-invert max-w-full mb-6">
-          <p className="text-xl font-medium text-muted-foreground">{props.post.lead}</p>
+
+        <p className="mx-auto w-full max-w-3xl border-l-4 border-primary pl-4 text-lg font-medium text-muted-foreground md:text-xl">
+          {props.post.lead}
+        </p>
+
+        <div className="mx-auto w-full max-w-3xl">
+          <div className="prose prose-slate dark:prose-invert max-w-none">
+            {documentToReactComponents(
+              props.post.content.json,
+              customMarkdownOptions(props.post.content)
+            )}
+          </div>
+          <div className="mt-8 flex items-center gap-3">
+            <span className="text-sm font-medium text-muted-foreground">
+              Κοινοποίηση:
+            </span>
+            <ShareButtons url={postUrl} title={props.post.title} />
+          </div>
         </div>
-        <hr className="w-1/3 mx-auto mb-8 border-border" />
-        <div className="prose prose-slate dark:prose-invert max-w-full">
-          {documentToReactComponents(
-            props.post.content.json,
-            customMarkdownOptions(props.post.content)
-          )}
-        </div>
-      </div>
+
+        <RelatedPosts posts={props.relatedPosts} />
+      </article>
     </Layout>
   );
 };

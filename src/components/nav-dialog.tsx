@@ -2,7 +2,11 @@
 
 import { Tag } from "@jogo/definitions";
 import { sortAndPartitionTags } from "@jogo/lib/sort-tags";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Menu } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+import { Logo } from "./logo";
+import { SocialLinks } from "./social-links";
 import { Button } from "./ui/button";
 import {
   Sheet,
@@ -11,9 +15,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "./ui/sheet";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
-import { Categories } from "./categories";
-import { SocialLinks } from "./social-links";
 
 interface NavDialogProps {
   tags: Tag[];
@@ -21,55 +22,77 @@ interface NavDialogProps {
 }
 
 export const NavDialog = (props: NavDialogProps) => {
-  const tabNames = ["Βασικές", "Περισσότερα"];
+  const [isOpen, setIsOpen] = useState(false);
   const { mainTags, secondaryTags } = sortAndPartitionTags(props.tags);
+  const closeSheet = () => setIsOpen(false);
 
   return (
     <div className={props.className}>
-      <Sheet>
+      <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger
           render={
             <Button
-              variant="secondary"
-              className="cursor-pointer hover:bg-primary text-lg"
+              variant="ghost"
+              size="icon"
+              aria-label="Κατηγορίες"
+              className="size-11 cursor-pointer"
             />
           }
         >
-          Κατηγορίες
-          <ChevronRight className="h-5 w-5" />
+          <Menu className="size-6" />
         </SheetTrigger>
 
-        <SheetContent side="right" className="w-72 overflow-y-auto p-6">
-          <SheetHeader className="p-0">
-            <SheetTitle className="text-2xl">Κατηγορίες</SheetTitle>
+        <SheetContent
+          side="right"
+          className="flex w-80 max-w-[85vw] flex-col gap-0 p-0"
+        >
+          <SheetHeader className="flex-row items-center gap-3 border-b border-border p-4">
+            <Logo variant="mark" className="h-7 w-7 text-foreground" />
+            <SheetTitle className="font-display text-lg font-extrabold uppercase tracking-wide">
+              Κατηγορίες
+            </SheetTitle>
           </SheetHeader>
 
-          <Tabs defaultValue="main">
-            <TabsList
-              variant="line"
-              activateOnFocus
-              className="mt-2 flex w-full gap-4 justify-evenly"
-            >
-              {tabNames.map((tab, index) => (
-                <TabsTrigger
-                  key={tab}
-                  value={index === 0 ? "main" : "secondary"}
-                  className="rounded-full text-lg px-2 py-1 w-36 bg-background data-active:bg-primary after:hidden"
-                >
-                  {tab}
-                </TabsTrigger>
+          <nav className="flex-1 overflow-y-auto p-4">
+            <ul className="flex flex-col divide-y divide-border">
+              {mainTags.map((tag) => (
+                <li key={tag.slug}>
+                  <Link
+                    href={`/tag/${tag.slug}/1`}
+                    onClick={closeSheet}
+                    className="group flex items-center justify-between py-3.5 font-display text-2xl font-extrabold tracking-tight transition-colors hover:text-secondary"
+                  >
+                    {tag.name}
+                    <ChevronRight className="size-5 text-primary transition-transform group-hover:translate-x-1" />
+                  </Link>
+                </li>
               ))}
-            </TabsList>
-            <TabsContent value="main" className="mt-2 overflow-y-auto">
-              <Categories tags={mainTags} />
-            </TabsContent>
-            <TabsContent value="secondary" className="mt-2 overflow-y-auto">
-              <Categories tags={secondaryTags} />
-            </TabsContent>
-          </Tabs>
+            </ul>
 
-          <div className="mt-auto pt-4 border-t border-border">
-            <SocialLinks className="flex gap-6 justify-center" />
+            {secondaryTags.length > 0 && (
+              <div className="mt-8">
+                <p className="mb-2 font-display text-xs font-bold uppercase tracking-[0.15em] text-muted-foreground">
+                  Περισσότερα
+                </p>
+                <ul className="grid grid-cols-2 gap-x-4">
+                  {secondaryTags.map((tag) => (
+                    <li key={tag.slug}>
+                      <Link
+                        href={`/tag/${tag.slug}/1`}
+                        onClick={closeSheet}
+                        className="block py-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                      >
+                        {tag.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </nav>
+
+          <div className="border-t border-border p-4">
+            <SocialLinks className="flex justify-center gap-6" />
           </div>
         </SheetContent>
       </Sheet>

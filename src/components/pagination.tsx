@@ -25,7 +25,7 @@ export const Pagination = (props: PaginationProps) => {
   if (totalPages <= 1) return null;
 
   return (
-    <nav aria-label="Πλοήγηση σελίδων" className="flex gap-2 w-full justify-center items-center">
+    <nav aria-label="Πλοήγηση σελίδων" className="flex flex-wrap gap-2 w-full justify-center items-center">
       {currentPage > 1 ? (
         <Link href={buildUri(currentPage - 1)} aria-label="Προηγούμενη σελίδα">
           <PageButton>
@@ -41,18 +41,21 @@ export const Pagination = (props: PaginationProps) => {
       {pages.map((pageItem, index) => {
         if (pageItem === null) {
           return (
-            <span key={`ellipsis-${index}`} className="h-10 w-10 text-center leading-10 text-muted-foreground select-none">
+            <span key={`ellipsis-${index}`} className="hidden sm:block h-11 w-11 text-center leading-11 text-muted-foreground select-none">
               ...
             </span>
           );
         }
         const isActive = pageItem === currentPage;
+        // On phones, keep only the current page and its direct neighbours
+        const isFarFromCurrent = Math.abs(pageItem - currentPage) > 1;
         return (
           <Link
             key={pageItem}
             href={buildUri(pageItem)}
             aria-current={isActive ? "page" : undefined}
             aria-label={`Σελίδα ${pageItem}`}
+            className={isFarFromCurrent ? "hidden sm:block" : ""}
           >
             <PageButton active={isActive}>{pageItem}</PageButton>
           </Link>
@@ -86,15 +89,15 @@ function PageButton({
   return (
     <div
       className={`
-        h-10 w-10 flex items-center justify-center
-        border-2 rounded-full
-        text-sm font-medium
+        h-11 w-11 flex items-center justify-center
+        border rounded-md
+        text-sm font-bold
         transition-colors
         ${active
-          ? "bg-primary border-foreground text-primary-foreground"
+          ? "bg-primary border-transparent text-primary-foreground"
           : disabled
-            ? "border-muted text-muted-foreground/40 cursor-default"
-            : "border-primary text-foreground hover:bg-secondary cursor-pointer"
+            ? "border-border/50 text-muted-foreground/40 cursor-default"
+            : "border-border text-foreground hover:bg-muted cursor-pointer"
         }
       `}
     >
