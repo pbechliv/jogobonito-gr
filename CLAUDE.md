@@ -5,15 +5,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-yarn dev          # Dev server with Turbopack on port 4000
-yarn build        # Production build (SSG)
-yarn start        # Production server on port 4000
-yarn lint         # ESLint
+pnpm dev          # Dev server with Turbopack on port 4000
+pnpm build        # Production build (SSG)
+pnpm start        # Production server on port 4000
+pnpm lint         # ESLint (eslint .)
 ```
 
-Package manager: **yarn 4.12.0**. Use `yarn add` for dependencies.
+Package manager: **pnpm 11.10.0** (via corepack). Use `pnpm add` for dependencies. pnpm uses a strict, non-hoisted `node_modules` — import only packages declared in `package.json`, never transitive ones. Dependency build scripts are opt-in via `allowBuilds` in `pnpm-workspace.yaml` (currently: `sharp`).
 
-shadcn components: `npx shadcn@latest add <component>` (uses `components.json` config with `@jogo/*` aliases).
+shadcn components: `pnpm dlx shadcn@latest add <component>` (uses `components.json` config with `@jogo/*` aliases).
 
 ## Architecture
 
