@@ -84,21 +84,27 @@ const Ball = (props: {
         stroke="currentColor"
         strokeWidth={props.strokeWidth}
       />
+      {/* panel details use the brand green so they stay dark on the yellow disc
+          in both themes (currentColor washes out in dark mode) and match the favicon */}
       <polygon
         points={PENTAGON_ANGLES.map((deg) =>
           point(cx, cy, pentagonR, deg).join(","),
         ).join(" ")}
-        fill="currentColor"
+        className="fill-secondary"
       />
       {PENTAGON_ANGLES.map((deg) => (
-        <path key={`patch-${deg}`} d={patchPath(deg)} fill="currentColor" />
+        <path
+          key={`patch-${deg}`}
+          d={patchPath(deg)}
+          className="fill-secondary"
+        />
       ))}
       {PENTAGON_ANGLES.map((deg) => (
         <path
           key={`seam-${deg}`}
           d={seamPath(deg)}
           fill="none"
-          stroke="currentColor"
+          className="stroke-secondary"
           strokeWidth={props.seamWidth}
         />
       ))}
