@@ -28,15 +28,17 @@ export default async function OpengraphImage() {
       >
         <svg width="160" height="160" viewBox="0 0 32 32">
           <circle cx="16" cy="16" r="14" fill="#EFC004" />
-          <polygon
-            fill="#0E2418"
-            points="16,9.5 9.82,13.99 12.18,21.26 19.82,21.26 22.18,13.99"
-          />
-          <line x1="16" y1="9.5" x2="16" y2="4" stroke="#0E2418" strokeWidth="2" strokeLinecap="round" />
-          <line x1="9.82" y1="13.99" x2="4.59" y2="12.29" stroke="#0E2418" strokeWidth="2" strokeLinecap="round" />
-          <line x1="12.18" y1="21.26" x2="8.95" y2="25.71" stroke="#0E2418" strokeWidth="2" strokeLinecap="round" />
-          <line x1="19.82" y1="21.26" x2="23.05" y2="25.71" stroke="#0E2418" strokeWidth="2" strokeLinecap="round" />
-          <line x1="22.18" y1="13.99" x2="27.41" y2="12.29" stroke="#0E2418" strokeWidth="2" strokeLinecap="round" />
+          <polygon fill="#0E2418" points="16,10.5 10.77,14.3 12.77,20.45 19.23,20.45 21.23,14.3" />
+          <path fill="#0E2418" d="M11.44 2.76L11.04 6.27L8.28 8.28L4.82 7.57A14 14 0 0 1 11.44 2.76Z" />
+          <path fill="#0E2418" d="M2 16.24L5.21 17.71L6.27 20.96L4.53 24.03A14 14 0 0 1 2 16.24Z" />
+          <path fill="#0E2418" d="M11.91 29.39L14.29 26.79L17.71 26.79L20.09 29.39A14 14 0 0 1 11.91 29.39Z" />
+          <path fill="#0E2418" d="M27.47 24.03L25.73 20.96L26.79 17.71L30 16.24A14 14 0 0 1 27.47 24.03Z" />
+          <path fill="#0E2418" d="M27.18 7.57L23.72 8.28L20.96 6.27L20.56 2.76A14 14 0 0 1 27.18 7.57Z" />
+          <line stroke="#0E2418" strokeWidth="1.8" x1="16" y1="10.5" x2="16" y2="2" />
+          <line stroke="#0E2418" strokeWidth="1.8" x1="10.77" y1="14.3" x2="2.69" y2="11.67" />
+          <line stroke="#0E2418" strokeWidth="1.8" x1="12.77" y1="20.45" x2="7.77" y2="27.33" />
+          <line stroke="#0E2418" strokeWidth="1.8" x1="19.23" y1="20.45" x2="24.23" y2="27.33" />
+          <line stroke="#0E2418" strokeWidth="1.8" x1="21.23" y1="14.3" x2="29.31" y2="11.67" />
         </svg>
         <div
           style={{

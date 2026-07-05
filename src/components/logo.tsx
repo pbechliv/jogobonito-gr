@@ -32,49 +32,74 @@ const LetterO = (props: { x: number }) => (
 
 const PENTAGON_ANGLES = [90, 162, 234, 306, 18];
 
-const point = (cx: number, cy: number, r: number, deg: number): string => {
+const point = (cx: number, cy: number, r: number, deg: number): [number, number] => {
   const rad = (deg * Math.PI) / 180;
-  return `${(cx + r * Math.cos(rad)).toFixed(2)},${(cy - r * Math.sin(rad)).toFixed(2)}`;
+  return [
+    +(cx + r * Math.cos(rad)).toFixed(2),
+    +(cy - r * Math.sin(rad)).toFixed(2),
+  ];
 };
 
-// Football: yellow disc, pentagon patch, five radial seams.
+// Telstar football: yellow disc, central pentagon, five seams to the rim,
+// and partial pentagon patches at the silhouette edge.
 const Ball = (props: {
   cx: number;
   cy: number;
   r: number;
   pentagonR: number;
-  seamR: number;
+  seamWidth: number;
   strokeWidth: number;
-}) => (
-  <>
-    <circle
-      cx={props.cx}
-      cy={props.cy}
-      r={props.r}
-      className="fill-primary"
-      stroke="currentColor"
-      strokeWidth={props.strokeWidth}
-    />
-    <polygon
-      points={PENTAGON_ANGLES.map((deg) =>
-        point(props.cx, props.cy, props.pentagonR, deg),
-      ).join(" ")}
-      fill="currentColor"
-    />
-    {PENTAGON_ANGLES.map((deg) => (
-      <line
-        key={deg}
-        x1={point(props.cx, props.cy, props.pentagonR, deg).split(",")[0]}
-        y1={point(props.cx, props.cy, props.pentagonR, deg).split(",")[1]}
-        x2={point(props.cx, props.cy, props.seamR, deg).split(",")[0]}
-        y2={point(props.cx, props.cy, props.seamR, deg).split(",")[1]}
+}) => {
+  const { cx, cy, r, pentagonR } = props;
+  const patchInnerR = r * 0.78;
+
+  const patchPath = (vertexDeg: number) => {
+    // rim patches sit opposite the pentagon's edges, offset 36° from vertices
+    const phi = vertexDeg + 36;
+    const [ax, ay] = point(cx, cy, r, phi - 17);
+    const [bx, by] = point(cx, cy, patchInnerR, phi - 9);
+    const [cx2, cy2] = point(cx, cy, patchInnerR, phi + 9);
+    const [dx, dy] = point(cx, cy, r, phi + 17);
+    return `M${ax} ${ay}L${bx} ${by}L${cx2} ${cy2}L${dx} ${dy}A${r} ${r} 0 0 1 ${ax} ${ay}Z`;
+  };
+
+  return (
+    <>
+      <circle
+        cx={cx}
+        cy={cy}
+        r={r}
+        className="fill-primary"
         stroke="currentColor"
-        strokeWidth={2}
-        strokeLinecap="round"
+        strokeWidth={props.strokeWidth}
       />
-    ))}
-  </>
-);
+      <polygon
+        points={PENTAGON_ANGLES.map((deg) =>
+          point(cx, cy, pentagonR, deg).join(","),
+        ).join(" ")}
+        fill="currentColor"
+      />
+      {PENTAGON_ANGLES.map((deg) => (
+        <path key={`patch-${deg}`} d={patchPath(deg)} fill="currentColor" />
+      ))}
+      {PENTAGON_ANGLES.map((deg) => {
+        const [x1, y1] = point(cx, cy, pentagonR, deg);
+        const [x2, y2] = point(cx, cy, r, deg);
+        return (
+          <line
+            key={`seam-${deg}`}
+            x1={x1}
+            y1={y1}
+            x2={x2}
+            y2={y2}
+            stroke="currentColor"
+            strokeWidth={props.seamWidth}
+          />
+        );
+      })}
+    </>
+  );
+};
 
 export const Logo = (props: LogoProps) => {
   if (props.variant === "mark") {
@@ -86,7 +111,7 @@ export const Logo = (props: LogoProps) => {
         aria-label="Jogo Bonito"
       >
         <title>Jogo Bonito</title>
-        <Ball cx={16} cy={16} r={14} pentagonR={6.5} seamR={12} strokeWidth={2.5} />
+        <Ball cx={16} cy={16} r={14} pentagonR={5.5} seamWidth={1.8} strokeWidth={2.5} />
       </svg>
     );
   }
@@ -116,7 +141,7 @@ export const Logo = (props: LogoProps) => {
       <LetterO x={108} />
       {/* tucked under the T bar — the T is stem-only below it */}
       <LetterO x={170} />
-      <Ball cx={68} cy={16} r={12} pentagonR={4.5} seamR={9.3} strokeWidth={2.5} />
+      <Ball cx={68} cy={16} r={12} pentagonR={4.5} seamWidth={1.6} strokeWidth={2.5} />
     </svg>
   );
 };
