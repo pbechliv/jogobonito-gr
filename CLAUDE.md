@@ -13,7 +13,7 @@ pnpm lint         # ESLint (eslint .)
 
 Package manager: **pnpm 11.10.0** (via corepack). Use `pnpm add` for dependencies. pnpm uses a strict, non-hoisted `node_modules` — import only packages declared in `package.json`, never transitive ones. Dependency build scripts are opt-in via `allowBuilds` in `pnpm-workspace.yaml` (currently: `sharp`).
 
-shadcn components: `pnpm dlx shadcn@latest add <component>` (uses `components.json` config with `@jogo/*` aliases).
+shadcn components: `pnpm dlx shadcn@latest add <component>` (uses `components.json` config with `@jogo/*` aliases). Style is `base-vega`, so the CLI delivers **Base UI** component variants (see UI Primitives below).
 
 ## Architecture
 
@@ -45,11 +45,23 @@ Tags have an `isMain` boolean. Main tags display in a fixed order defined in `sr
 
 ### Styling & Theming
 
-**Tailwind CSS v4** with shadcn/ui components. Colors use CSS custom properties (oklch) in `src/styles/globals.css` — `:root` for light theme, `.dark` for dark theme. The yellow accent palette (`--primary` = yellow-200, `--secondary` = yellow-100) is the brand identity.
+**Tailwind CSS v4** with shadcn/ui components (Base UI style `base-vega`). Colors use CSS custom properties (oklch) in `src/styles/globals.css` — `:root` for light theme, `.dark` for dark theme. The yellow accent palette (`--primary` = yellow-200, `--secondary` = yellow-100) is the brand identity.
 
 Dark mode via `next-themes` with `attribute="class"`. Theme toggle offers Light/Dark/System.
 
 All UI text is in **Greek** — keep labels, aria attributes, and user-facing strings in Greek.
+
+### UI Primitives (Base UI)
+
+The wrappers in `src/components/ui/` are built on **`@base-ui/react`** (not Radix — the project was migrated off `radix-ui`; see `.migration/`). When editing or adding primitives, use Base UI idioms, never Radix ones:
+
+- **`render` prop, not `asChild`**: `<Trigger render={<Button />}>…</Trigger>`. Children go on the wrapping component, not inside the rendered element.
+- **State via presence attributes**: `data-open` / `data-closed` (not `data-[state=open]`), `data-highlighted` for menu item highlight (not `:focus`), `data-active` for tabs (not `data-[state=active]`), `data-popup-open` for submenu triggers.
+- **Positioning model**: overlays render `Portal > Positioner > Popup`. Positioning props (`align`, `side`, `sideOffset`, `alignOffset`) MUST be forwarded to `Positioner`, never left to fall through onto `Popup`.
+- **CSS vars**: `--transform-origin`, `--available-height`, `--anchor-width` (not the `--radix-*` names).
+- **Animations**: transitions driven by `data-starting-style:` / `data-ending-style:`, not keyframe `animate-in`/`animate-out`.
+- Part names differ from Radix: dialog `Overlay`→`Backdrop`, `Content`→`Popup`; tabs `Trigger`→`Tab`, `Content`→`Panel`; menu `Label`→`GroupLabel`, `Sub`→`SubmenuRoot`, `ItemIndicator`→`CheckboxItemIndicator`/`RadioItemIndicator`.
+- `button.tsx` wraps the real `@base-ui/react/button` primitive.
 
 ### Key Conventions
 

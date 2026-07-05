@@ -27,14 +27,16 @@ export const NavDialog = (props: NavDialogProps) => {
   return (
     <div className={props.className}>
       <Sheet>
-        <SheetTrigger asChild>
-          <Button
-            variant="secondary"
-            className="cursor-pointer hover:bg-primary text-lg"
-          >
-            Κατηγορίες
-            <ChevronRight className="h-5 w-5" />
-          </Button>
+        <SheetTrigger
+          render={
+            <Button
+              variant="secondary"
+              className="cursor-pointer hover:bg-primary text-lg"
+            />
+          }
+        >
+          Κατηγορίες
+          <ChevronRight className="h-5 w-5" />
         </SheetTrigger>
 
         <SheetContent side="right" className="w-72 overflow-y-auto p-6">
@@ -45,13 +47,14 @@ export const NavDialog = (props: NavDialogProps) => {
           <Tabs defaultValue="main">
             <TabsList
               variant="line"
+              activateOnFocus
               className="mt-2 flex w-full gap-4 justify-evenly"
             >
               {tabNames.map((tab, index) => (
                 <TabsTrigger
                   key={tab}
                   value={index === 0 ? "main" : "secondary"}
-                  className="rounded-full text-lg px-2 py-1 w-36 data-[state=active]:bg-primary data-[state=inactive]:bg-background after:hidden"
+                  className="rounded-full text-lg px-2 py-1 w-36 bg-background data-active:bg-primary after:hidden"
                 >
                   {tab}
                 </TabsTrigger>

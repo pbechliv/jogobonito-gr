@@ -4,7 +4,7 @@ import { Tag } from "@jogo/definitions";
 import { sortAndPartitionTags } from "@jogo/lib/sort-tags";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Popover,
   PopoverContent,
@@ -18,33 +18,6 @@ interface TagsBarProps {
 
 export const TagsBar = (props: TagsBarProps) => {
   const [isSecondaryOpen, setIsSecondaryOpen] = useState(false);
-  const closeTimerRef = useRef<number | null>(null);
-
-  const clearCloseTimer = () => {
-    if (closeTimerRef.current !== null) {
-      window.clearTimeout(closeTimerRef.current);
-      closeTimerRef.current = null;
-    }
-  };
-
-  const openSecondary = () => {
-    clearCloseTimer();
-    setIsSecondaryOpen(true);
-  };
-
-  const closeSecondarySoon = () => {
-    clearCloseTimer();
-    closeTimerRef.current = window.setTimeout(() => {
-      setIsSecondaryOpen(false);
-      closeTimerRef.current = null;
-    }, 150);
-  };
-
-  useEffect(() => {
-    return () => {
-      clearCloseTimer();
-    };
-  }, []);
 
   const { mainTags, secondaryTags } = useMemo(
     () => sortAndPartitionTags(props.tags),
@@ -69,32 +42,28 @@ export const TagsBar = (props: TagsBarProps) => {
 
           {secondaryTags.length > 0 && (
             <Popover open={isSecondaryOpen} onOpenChange={setIsSecondaryOpen}>
-              <div
-                onMouseEnter={openSecondary}
-                onMouseLeave={closeSecondarySoon}
-              >
-                <PopoverTrigger asChild>
+              <PopoverTrigger
+                openOnHover
+                delay={0}
+                closeDelay={150}
+                render={
                   <button
                     type="button"
-                    onClick={() => setIsSecondaryOpen((v) => !v)}
                     className="inline-flex items-center gap-2 hover:underline decoration-ring cursor-pointer"
-                    aria-expanded={isSecondaryOpen}
-                  >
-                    Περισσότερα
-                    <ChevronDown
-                      className={`h-5 w-5 transition-transform ${
-                        isSecondaryOpen ? "rotate-180" : ""
-                      }`}
-                    />
-                  </button>
-                </PopoverTrigger>
-              </div>
+                  />
+                }
+              >
+                Περισσότερα
+                <ChevronDown
+                  className={`h-5 w-5 transition-transform ${
+                    isSecondaryOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </PopoverTrigger>
 
               <PopoverContent
                 className="w-[min(32rem,80vw)] max-h-96 overflow-auto p-2"
-                onMouseEnter={openSecondary}
-                onMouseLeave={closeSecondarySoon}
-                onOpenAutoFocus={(e) => e.preventDefault()}
+                initialFocus={false}
               >
                 <div className="grid grid-cols-2 gap-1 text-base">
                   {secondaryTags.map((tag) => (
