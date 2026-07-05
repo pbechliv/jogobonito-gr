@@ -21,7 +21,11 @@ Greek-language sports blog built with **Next.js 16** (App Router, SSG/ISR) and *
 
 ### Data Flow
 
-Content is fetched from Contentful's GraphQL API (`src/lib/api.ts`) at build time. Pages use `generateStaticParams()` for static generation with 60-second ISR revalidation. Rich text content is rendered via `@contentful/rich-text-react-renderer` with custom handlers for embedded images, YouTube/Facebook embeds, and hyperlinks.
+Content is fetched from Contentful's GraphQL API (`src/lib/api.ts`) at build time. Pages use `generateStaticParams()` for static generation with 60-second ISR revalidation (`next: { revalidate: 60 }` on the fetch). Rich text content is rendered via `@contentful/rich-text-react-renderer` with custom handlers for embedded images, YouTube/Facebook embeds, and hyperlinks.
+
+Queries are assembled from reusable GraphQL field fragments exported as template strings in `src/definitions/objects.fields.ts` (`PostFields`, `TagFields`, `PostWithContentFields`) — interpolated into query bodies in `api.ts`. `PostWithContentFields` extends `PostFields` with the rich text `content` block and its linked assets. When adding a field to a query, edit the fragment, not the query. Matching TypeScript types live in `objects.interface.ts` (entities) and `responses.interface.ts` (GraphQL response envelopes); all are re-exported from `@jogo/definitions`.
+
+`fetchGraphQL` accepts a `preview` flag that switches to `CONTENTFUL_PREVIEW_ACCESS_TOKEN`, but no page currently uses it — all reads are published content.
 
 ### Path Alias
 
