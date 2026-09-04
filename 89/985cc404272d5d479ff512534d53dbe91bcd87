@@ -1,0 +1,21 @@
+package.json
+  s_712dafec99da5f::t_27fd51456ccf4a 40
+  s_712dafec99da5f::t_0a4dac320e3039 15-16,18,20-22,27-29,31-34,36
+  s_712dafec99da5f::t_d57e0a4d4b2319 26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "89985cc404272d5d479ff512534d53dbe91bcd87",
+  "prompts": {},
+  "sessions": {
+    "s_712dafec99da5f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5670b7c3-bb44-4c54-9efb-d9fdf839c396",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Panos Bechlivanos <panos.bechlivanos@gmail.com>"
+    }
+  }
+}
