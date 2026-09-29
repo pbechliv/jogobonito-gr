@@ -11,7 +11,7 @@ pnpm start        # Production server on port 4000
 pnpm lint         # ESLint (eslint .)
 ```
 
-Package manager: **pnpm 11.10.0** (via corepack). Use `pnpm add` for dependencies. pnpm uses a strict, non-hoisted `node_modules` — import only packages declared in `package.json`, never transitive ones. Dependency build scripts are opt-in via `allowBuilds` in `pnpm-workspace.yaml` (currently: `sharp`).
+Package manager: **pnpm 12.6.0** (via corepack). Use `pnpm add` for dependencies. pnpm uses a strict, non-hoisted `node_modules` — import only packages declared in `package.json`, never transitive ones. Dependency build scripts are opt-in via `allowBuilds` in `pnpm-workspace.yaml` (currently: `sharp`).
 
 shadcn components: `pnpm dlx shadcn@latest add <component>` (uses `components.json` config with `@jogo/*` aliases). Style is `base-vega`, so the CLI delivers **Base UI** component variants (see UI Primitives below).
 
